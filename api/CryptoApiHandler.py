@@ -4,7 +4,7 @@ class CryptoApiHandler(Resource):
   def get(self):
     return {
       'resultStatus': 'SUCCESS',
-      'message': "Do some crypto!"
+      'message': "Run the shift Cipher"
       }
 
   def post(self):

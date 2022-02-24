@@ -8,7 +8,7 @@ function App() {
   const [getMessage, setGetMessage] = useState({})
 
   useEffect(() => {
-    axios.get('https://cryptography-web-application.herokuapp.com/flask/crypto').then(response => {
+    axios.get('/flask/crypto').then(response => {
       console.log("SUCCESS", response)
       setGetMessage(response)
     }).catch(error => {
