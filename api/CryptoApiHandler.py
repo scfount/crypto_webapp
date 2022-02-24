@@ -4,7 +4,7 @@ class CryptoApiHandler(Resource):
   def get(self):
     return {
       'resultStatus': 'SUCCESS',
-      'message': "Run the shift Cipher"
+      'message': "Run the affine Cipher"
       }
 
   def post(self):
