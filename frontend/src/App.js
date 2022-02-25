@@ -1,39 +1,45 @@
-
-import logo from './logo.svg';
 import './App.css';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'
 
 function App() {
-  const [getMessage, setGetMessage] = useState({})
+  // const [message, setMessage] = useState({})
+  // const [ciphertext, setCiphertext] = useState({})
+  const [plain_text, setPlainText] = useState({})
+  // const [error, setErrorMessage] = useState({})
+
 
   useEffect(() => {
-    axios.get('https://cryptography-web-application.herokuapp.com/flask/crypto').then(response => {
-      console.log("SUCCESS", response)
-      setGetMessage(response)
-    }).catch(error => {
-      console.log(error)
-    })
+    // const path = 'http://127.0.0.1:5000/crypto'
+    // const path = 'http://127.0.0.1:5000/shift_decrypt'
+    const path = 'https://cryptography-web-application.herokuapp.com/shift_decrypt'
 
-    // useEffect(() => {
-    //   axios.get('http://127.0.0.1:5000/flask/crypto').then(response => {
-    //     console.log("SUCCESS", response)
-    //     setGetMessage(response)
-    //   }).catch(error => {
-    //     console.log(error)
-    //   })
+    axios({
+      method: 'POST',
+      url: path,
+      data: {
+        cipherText: 'ifmmp'
+      }
+    })
+      .then(response => {
+        console.log("SUCCESS", response)
+        setPlainText(response)
+      }).catch(error => {
+        console.log(error)
+      })
 
   }, [])
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>React + Flask Tutorial</p>
-        <div>{getMessage.status === 200 ?
-          <h3>{getMessage.data.message}</h3>
+        <h1>Cryptography Web App</h1>
+        <div>{plain_text.status === 200 ?
+          <h3>{plain_text.data.decryptions[1]}</h3>
           :
-          <h3>LOADING</h3>}</div>
+          <h3>Cryptic...Fail</h3>}
+        </div>
       </header>
+
     </div>
   );
 }
