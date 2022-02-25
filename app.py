@@ -25,7 +25,7 @@ def shift_cipher_decrypt():
             Returns:
                 dictionary, shift key : plaintext
         '''
-        cipherText = request.json['cipherText']
+        cipherText = request.json['text']
         decryptions = {}
         for key in range(26):
             plain_text = []
