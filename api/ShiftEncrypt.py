@@ -21,7 +21,7 @@ class ShiftEncrypt(Resource):
             str.maketrans("", "", string.whitespace))
         cipher_text = []
         for char in plaintext.lower():
-            adjusted_ord = (ord(char) - ord('a')) + int(shift) % 26
+            adjusted_ord = ((ord(char) - ord('a')) + int(shift)) % 26
             shifted_char = chr(adjusted_ord + ord('a'))
             cipher_text.append(shifted_char)
 
