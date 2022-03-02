@@ -4,27 +4,36 @@ import axios from 'axios'
 import Button from './components/Button';
 
 function App() {
-  // const [message, setMessage] = useState({})
-  const [cipherObj, setCipherObj] = useState({
-    text: ''
+  const [cipherText, setCipherText] = useState({})
+  const [shiftEncrypt, setShiftEncrypt] = useState({
+    plaintext: '',
+    shift: 0
   })
-  const [plain_text, setPlainText] = useState({})
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setShiftEncrypt({
+      ...shiftEncrypt,
+      [name]: value
+    });
+  };
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // const path = 'http://127.0.0.1:5000/crypto'
-    // const path = 'http://127.0.0.1:5000/shift_decrypt'
+    // const path = 'http://127.0.0.1:5000/shift_encrypt'
     const path = 'https://cryptography-web-application.herokuapp.com/shift_decrypt'
     axios({
       method: 'POST',
       url: path,
       data: {
-        text: cipherObj
+        plaintext: shiftEncrypt.plaintext,
+        shift: shiftEncrypt.shift
       }
     })
       .then(response => {
         console.log("SUCCESS", response)
-        setPlainText(response)
+        setCipherText(response)
       }).catch(error => {
         console.log(error)
       })
@@ -35,19 +44,35 @@ function App() {
       <header className="App-header">
         <h1>Cryptography Web App</h1>
         <form onSubmit={handleSubmit}>
-          <label htmlFor="">Ciphertext:
-            <input
-              type="text"
-              name="cipherText"
-              id="cipher-text"
-              value={cipherObj.text}
-              onChange={(e) => setCipherObj(e.target.value)} />
-          </label>
-          <Button name={'Decrypt'} />
+          <div>
+            <label htmlFor="">Plaintext:
+              <input
+                type="text"
+                name="plaintext"
+                id="plain-text"
+                value={shiftEncrypt.plaintext}
+                onChange={handleChange} />
+            </label>
+          </div>
+          <div>
+            <label htmlFor="">Shift:
+              <input
+                type="number"
+                pattern='[0-9]'
+                name="shift"
+                id="shift-num"
+                value={shiftEncrypt.shift}
+                onChange={handleChange} />
+            </label>
+          </div>
+          <Button name={'Encrypt'} />
         </form>
 
-        <div>{plain_text.status === 200 ?
-          <h3>{plain_text.data.decryptions[1]}</h3>
+        <div>{cipherText.status === 200 ?
+          <div>
+            <h3>Ciphertext:</h3>
+            <p>{cipherText.data.cipherText}</p>
+          </div>
           :
           <h3>Cryptic...Fail</h3>}
         </div>
@@ -64,7 +89,7 @@ function App() {
 //     method: 'POST',
 //     url: path,
 //     data: {
-//       text: cipherObj
+//       cipher_text: cipherObj
 //     }
 //   })
 //     .then(response => {
