@@ -1,6 +1,7 @@
 import './App.css';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'
+import Button from './components/Button';
 
 function App() {
   // const [message, setMessage] = useState({})
@@ -29,27 +30,6 @@ function App() {
       })
   }
 
-
-  // useEffect(() => {
-  //   // const path = 'http://127.0.0.1:5000/crypto'
-  //   const path = 'http://127.0.0.1:5000/shift_decrypt'
-  //   // const path = 'https://cryptography-web-application.herokuapp.com/shift_decrypt'
-  //   axios({
-  //     method: 'POST',
-  //     url: path,
-  //     data: {
-  //       text: cipherObj
-  //     }
-  //   })
-  //     .then(response => {
-  //       console.log("SUCCESS", response)
-  //       setPlainText(response)
-  //     }).catch(error => {
-  //       console.log(error)
-  //     })
-
-  // }, [])
-
   return (
     <div className="App">
       <header className="App-header">
@@ -63,7 +43,7 @@ function App() {
               value={cipherObj.text}
               onChange={(e) => setCipherObj(e.target.value)} />
           </label>
-          <button type="submit">Decrypt</button>
+          <Button name={'Decrypt'} />
         </form>
 
         <div>{plain_text.status === 200 ?
@@ -76,5 +56,23 @@ function App() {
     </div>
   );
 }
+// useEffect(() => {
+//   // const path = 'http://127.0.0.1:5000/crypto'
+//   const path = 'http://127.0.0.1:5000/shift_decrypt'
+//   // const path = 'https://cryptography-web-application.herokuapp.com/shift_decrypt'
+//   axios({
+//     method: 'POST',
+//     url: path,
+//     data: {
+//       text: cipherObj
+//     }
+//   })
+//     .then(response => {
+//       console.log("SUCCESS", response)
+//       setPlainText(response)
+//     }).catch(error => {
+//       console.log(error)
+//     })
 
+// }, [])
 export default App;
