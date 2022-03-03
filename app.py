@@ -3,9 +3,9 @@ from flask_restful import Api, Resource, reqparse
 from flask_cors import CORS
 from api.ShiftDecrypt import ShiftDecrypt
 from api.ShiftEncrypt import ShiftEncrypt
+from api.AffineEncrypt import AffineEncrypt
 
 app = Flask(__name__, static_url_path='', static_folder='frontend/build')
-api = Api(app)
 CORS(app)
 
 
@@ -14,6 +14,11 @@ def serve(path):
     return send_from_directory(app.static_folder, 'index.html')
 
 
-api.add_resource(ShiftEncrypt, '/shift_encrypt')
-
-api.add_resource(ShiftDecrypt, '/shift_encrypt')
+api = Api(app)
+resource_map = (
+    (ShiftEncrypt, '/shift_encrypt'),
+    (ShiftDecrypt, '/shift_decrypt'),
+    (AffineEncrypt, '/affine_encrypt')
+)
+for resource, route in resource_map:
+    api.add_resource(resource, route)
