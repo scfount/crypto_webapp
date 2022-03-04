@@ -3,6 +3,12 @@ from flask_restful import Resource
 
 
 class AffineDecrypt(Resource):
+    '''
+    Decrypts ciphertext using the affine cipher algorithm
+    Users provides all needed information: text, alpha, beta
+    Returns a string, the plaintext
+    '''
+
     def post(self):
         ciphertext = request.json['ciphertext']
         alpha = int(request.json('alpha'))
