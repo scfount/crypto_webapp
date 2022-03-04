@@ -68,36 +68,16 @@ function App() {
           <Button name={'Encrypt'} />
         </form>
 
-        <div>{cipherText.status === 200 ?
+        <div>{cipherText.status === 200 &&
           <div>
-            <h3>Ciphertext:</h3>
+            <h4>Ciphertext:</h4>
             <p>{cipherText.data.cipherText}</p>
-          </div>
-          :
-          <h3>Cryptic...Fail</h3>}
+          </div>}
         </div>
       </header>
 
     </div>
   );
 }
-// useEffect(() => {
-//   // const path = 'http://127.0.0.1:5000/crypto'
-//   const path = 'http://127.0.0.1:5000/shift_decrypt'
-//   // const path = 'https://cryptography-web-application.herokuapp.com/shift_decrypt'
-//   axios({
-//     method: 'POST',
-//     url: path,
-//     data: {
-//       cipher_text: cipherObj
-//     }
-//   })
-//     .then(response => {
-//       console.log("SUCCESS", response)
-//       setPlainText(response)
-//     }).catch(error => {
-//       console.log(error)
-//     })
 
-// }, [])
 export default App;

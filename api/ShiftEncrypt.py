@@ -1,6 +1,6 @@
 import string
 from flask import request
-from flask_restful import Api, Resource, reqparse
+from flask_restful import Resource
 
 
 class ShiftEncrypt(Resource):
@@ -8,6 +8,7 @@ class ShiftEncrypt(Resource):
         '''
         Method -- 
             encrypts plain text using shift cipher algorithm
+            y = x + a (mod 26)
         Parameters:
             plaintext
             shift key
@@ -16,17 +17,20 @@ class ShiftEncrypt(Resource):
         '''
         plaintext = request.json['plaintext']
         shift = request.json['shift']
+        N = 26
+        a_ord = ord('a')
 
         plaintext = plaintext.translate(
             str.maketrans("", "", string.whitespace))
-        cipher_text = []
-        for char in plaintext.lower():
-            adjusted_ord = ((ord(char) - ord('a')) + int(shift)) % 26
-            shifted_char = chr(adjusted_ord + ord('a'))
-            cipher_text.append(shifted_char)
 
-            cipherText = "".join(cipher_text)
+        ciphertext = []
+        for char in plaintext.lower():
+            char_to_ord_shifted = ((ord(char) - a_ord) + int(shift)) % N
+            ord_to_ciphertext = chr(char_to_ord_shifted + a_ord)
+            ciphertext.append(ord_to_ciphertext)
+
+            encrypted_text = "".join(ciphertext)
         return {
             'resultStatus': 'SUCCESS',
-            'cipherText': cipherText
+            'cipherText': encrypted_text
         }

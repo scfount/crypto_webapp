@@ -1,30 +1,33 @@
+import string
 from flask import request
-from flask_restful import Api, Resource, reqparse
+from flask_restful import Resource
 
 
 class ShiftDecrypt(Resource):
     def post(self):
         '''
-        Method -- shift_cipher_decrypt
+        Method --
             decrypts ciphertext by trying all possible keys
         Parameters:
-            cipher_text -- the ciphertext to decrypt
+            ciphertext
         Returns:
             dictionary, shift key : plaintext
         '''
-        cipherText = request.json['text']
+        ciphertext = request.json['text']
+        N = 26
+        a_ord = ord('a')
+
+        ciphertext = ciphertext.translate(
+            str.maketrans("", "", string.whitespace))
+
         decryptions = {}
-        for key in range(26):
-            plain_text = []
-            for char in cipherText:
-                if char.isupper():
-                    adjusted_ord = (ord(char) - (key + ord('A'))) % 26
-                    shifted_char = chr(adjusted_ord + ord('A'))
-                else:
-                    adjusted_ord = (ord(char) - (key + ord('a'))) % 26
-                    shifted_char = chr(adjusted_ord + ord('a'))
-                plain_text.append(shifted_char)
-            decryptions[key] = "".join(plain_text)
+        for key in range(N):
+            plaintext = []
+            for char in ciphertext.lower():
+                char_to_ord_shifted = (ord(char) - (key + a_ord)) % N
+                ord_to_plaintext = chr(char_to_ord_shifted + a_ord)
+                plaintext.append(ord_to_plaintext)
+            decryptions[key] = "".join(plaintext)
         return {
             'resultStatus': 'SUCCESS',
             'decryptions': decryptions
