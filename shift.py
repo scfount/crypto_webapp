@@ -1,4 +1,8 @@
 
+from cmath import sqrt
+import math
+
+
 def shift_cipher_decrypt(cipherText):
     '''
         Method -- shift_cipher_decrypt
@@ -73,9 +77,57 @@ def affine_decrypt(cipher_text):
     return beta_decryptions
 
 
+def rsa_find_D(E, N):
+    lcm = 0
+    end = math.ceil(math.sqrt(N))
+    # find phi
+    phi = None
+    for p in range(end):
+        for q in range(p, N):
+            if p * q == N:
+                phi = math.lcm((p-1), (q-1))
+    # find D
+    for d in range(phi):
+        if (E * d) % phi == 1:
+            return ('d is:', d)
+
+
+def verify_sig():
+    y1 = 20679
+    y2 = 11082
+    alpha = 5
+    beta = 26379
+    p = 31847
+    x = 20543
+
+    key = None
+    print('Find key')
+    for i in range(p):
+        if (alpha ** i) % p == y1:
+            key = i
+            print('key = ', key)
+            break
+
+    print('verify y2')
+    print('y2 =', y2)
+    print((x * (beta ** key)) % p)
+    print(y2 == (x * (beta ** key)) % p)
+
+
+def bf_a():
+    alpha = 5
+    beta = 26379
+    p = 31847
+
+    print('brute forcing a...')
+    for a in range(p):
+        if (alpha ** a) % p == beta:
+            print('a =', a)
+            break
+
+
 def main():
-    AFFINE_CIPHERTEXT = "tcabtiqmfheqqmrmvmtmaq"
-    print(affine_decrypt(AFFINE_CIPHERTEXT))
+    bf_a()
 
 
 if __name__ == "__main__":
