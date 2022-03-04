@@ -13,7 +13,7 @@ class ShiftDecrypt(Resource):
         Returns:
             dictionary, shift key : plaintext
         '''
-        ciphertext = request.json['text']
+        ciphertext = request.json['ciphertext']
         N = 26
         a_ord = ord('a')
 

@@ -29,9 +29,8 @@ class AffineEncrypt(Resource):
 
         ciphertext = []
         for char in plaintext.lower():
-            char_to_ord_shifted = ((ALPHABET[char] * alpha) + beta) % 26
-            ord_to_ciphertext = chr(char_to_ord_shifted + A_ORD)
-            ciphertext.append(ord_to_ciphertext)
+            encrypt_char = ((ALPHABET[char] * alpha) + beta) % 26
+            ciphertext.append(chr(encrypt_char + A_ORD))
 
         encrypted_text = "".join(ciphertext)
         return {
