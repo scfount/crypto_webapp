@@ -1,7 +1,7 @@
 from flask import Flask, send_from_directory
 from flask_restful import Api
 from flask_cors import CORS
-from api.CiphersAPI import ShiftEncrypt, ShiftDecrypt, AffineEncrypt, AffineDecrypt, VigenereEncrypt, VigenereDecrypt
+from api.ciphers_API import ShiftEncrypt, ShiftDecrypt, AffineEncrypt, AffineDecrypt, VigenereEncrypt, VigenereDecrypt
 
 
 app = Flask(__name__, static_url_path='', static_folder='frontend/build')
