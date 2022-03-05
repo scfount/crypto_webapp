@@ -11,11 +11,11 @@ class Shift:
         N = 26
         a_ord = ord('a')
 
-        self.text = self.text.translate(
+        plaintext = self.text.translate(
             str.maketrans("", "", string.whitespace))
 
         ciphertext = []
-        for char in self.text.lower():
+        for char in plaintext.lower():
             char_to_ord_shifted = ((ord(char) - a_ord) + int(self.key)) % N
             ord_to_ciphertext = chr(char_to_ord_shifted + a_ord)
             ciphertext.append(ord_to_ciphertext)
@@ -27,7 +27,7 @@ class Shift:
         N = 26
         a_ord = ord('a')
 
-        ciphertext = ciphertext.translate(
+        ciphertext = self.text.translate(
             str.maketrans("", "", string.whitespace))
 
         plaintext = []

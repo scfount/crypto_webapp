@@ -2,7 +2,7 @@ from flask import Flask, send_from_directory
 from flask_restful import Api
 from flask_cors import CORS
 from api.AffineDecrypt import AffineDecrypt
-from api.ShiftApi import ShiftEncrypt, ShiftDecrypt
+from api.CiphersAPI import ShiftEncrypt, ShiftDecrypt
 from api.AffineEncrypt import AffineEncrypt
 
 app = Flask(__name__, static_url_path='', static_folder='frontend/build')
