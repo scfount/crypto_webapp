@@ -1,4 +1,4 @@
-from ..Shift import Shift
+from shift import Shift
 
 
 def test_encrypt():

@@ -1,8 +1,8 @@
 from flask import request
 from flask_restful import Resource
-from ciphers.Vigenere import Vigenere
-from ciphers.Shift import Shift
-from ciphers.Affine import Affine
+from ciphers.vigenere import Vigenere
+from ciphers.shift import Shift
+from ciphers.affine import Affine
 
 
 class ShiftEncrypt(Resource):
