@@ -3,7 +3,7 @@ import string
 
 class Affine:
 
-    def __init__(self, text, alpha, beta):
+    def __init__(self, text, alpha, beta) -> None:
         self.text = text
         self.alpha = int(alpha)
         self.beta = int(beta)

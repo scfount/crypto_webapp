@@ -1,8 +1,12 @@
 
 class Vigenere:
 
-    def encrypt(plaintext, key):
+    def __init__(self, text, key) -> None:
+        self.text = text
+        self.key = key
+
+    def encrypt(self):
         return
 
-    def decrypt(ciphertext, key):
+    def decrypt(self):
         return

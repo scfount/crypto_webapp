@@ -3,7 +3,7 @@ import string
 
 class Shift:
 
-    def __init__(self, text, key):
+    def __init__(self, text, key) -> None:
         self.text = text
         self.key = key
 

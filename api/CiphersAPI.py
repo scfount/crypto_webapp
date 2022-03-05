@@ -1,5 +1,6 @@
 from flask import request
 from flask_restful import Resource
+from ciphers.Vigenere import Vigenere
 from ciphers.Shift import Shift
 from ciphers.Affine import Affine
 
@@ -50,6 +51,30 @@ class AffineDecrypt(Resource):
         beta = int(request.json('beta'))
         affine = Affine(ciphertext, alpha, beta)
         plaintext = affine.encrypt()
+        return {
+            'resultStatus': 'SUCCESS',
+            'plaintext': plaintext
+        }
+
+
+class VigenereEncrypt(Resource):
+    def post(self):
+        plaintext = request.json['plaintext']
+        key = request.json['key']
+        vigenere = Vigenere(plaintext, key)
+        ciphertext = vigenere.encrypt()
+        return {
+            'resultStatus': 'SUCCESS',
+            'ciphertext': ciphertext
+        }
+
+
+class VigenereDecrypt(Resource):
+    def post(self):
+        ciphertext = request.json['ciphertext']
+        key = request.json['key']
+        vigenere = Vigenere(ciphertext, key)
+        plaintext = vigenere.decrypt()
         return {
             'resultStatus': 'SUCCESS',
             'plaintext': plaintext
