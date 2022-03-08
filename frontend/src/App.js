@@ -55,7 +55,7 @@ function App() {
             </label>
           </div>
           <div>
-            <label htmlFor="">Key:
+            <label htmlFor="">Shift:
               <input
                 type="number"
                 pattern='[0-9]'
