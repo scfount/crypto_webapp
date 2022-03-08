@@ -1,10 +1,11 @@
 import string
+from .constants import Constants
 
 
 class Affine:
 
     def __init__(self, text, alpha, beta) -> None:
-        self.text = text
+        self.text = text.lower()
         self.alpha = int(alpha)
         self.beta = int(beta)
 
@@ -12,44 +13,43 @@ class Affine:
         '''
         Function -- 
             Affine Cipher encryption of plaintext
-            y = ax + b (mod 26)
+            y = ax + b % 26
         Parameters --
         Returns --
-            Ciphertext
+            String, ciphertext
         '''
-        N = 26
-        A_ORD = 97
-        ALPHABET = {chr(i + A_ORD): i for i in range(N)}
 
         plaintext = self.text.translate(
             str.maketrans("", "", string.whitespace))
 
         ciphertext = []
-        for char in plaintext.lower():
-            encrypt_char = ((ALPHABET[char] * self.alpha) + self.beta) % 26
-            ciphertext.append(chr(encrypt_char + A_ORD))
+        for char in plaintext:
+            encrypt_char = (
+                (Constants.ALPHABET[char] * self.alpha) + self.beta) % Constants.N
+            ciphertext.append(chr(encrypt_char + Constants.A_ORD))
 
         encrypted_text = "".join(ciphertext)
-        return encrypted_text
+        return encrypted_text.upper()
 
     def decrypt(self):
         '''
-        Decrypts ciphertext using the affine cipher algorithm
-        Users provides all needed information: text, alpha, beta
-        Returns a string, the plaintext
+         Function -- 
+            Affine Cipher decryption of ciphertext
+            x = a^-1 * (y - b) % 26
+        Parameters --
+        Returns --
+            String, ciphertext
         '''
         inverse = (1/self.alpha)
-        N = 26
-        A_ORD = 97
-        ALPHABET = {chr(i + A_ORD): i for i in range(N)}
 
         ciphertext = self.text.translate(
             str.maketrans("", "", string.whitespace))
 
         plaintext = []
-        for char in ciphertext.lower():
-            decrypt_char = inverse * (ALPHABET[char] - self.beta)
-            plaintext.append(chr(decrypt_char + A_ORD))
+        for char in ciphertext:
+            decrypt_char = (
+                inverse * (Constants.ALPHABET[char] - self.beta)) % Constants.N
+            plaintext.append(chr(decrypt_char + Constants.A_ORD))
 
         decrypted_text = "".join(plaintext)
-        return decrypted_text
+        return decrypted_text.upper()
