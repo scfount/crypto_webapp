@@ -1,83 +1,34 @@
 import './App.css';
-import React, { useEffect, useState } from 'react';
-import axios from 'axios'
-import Button from './components/Button';
+import React from 'react';
+import Nav from './components/Nav';
+import Shift from './components/Shift';
+import Vigenere from './components/Vigenere';
+import Affine from './components/Affine';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
-  const [encryptedText, setEncryptedText] = useState({})
-  const [shiftEncrypt, setShiftEncrypt] = useState({
-    plaintext: '',
-    key: 0
-  })
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setShiftEncrypt({
-      ...shiftEncrypt,
-      [name]: value
-    });
-  };
-
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // const path = 'http://127.0.0.1:5000/shift_encrypt'
-    const path = 'https://cryptography-web-application.herokuapp.com/shift_encrypt'
-    axios({
-      method: 'POST',
-      url: path,
-      data: {
-        plaintext: shiftEncrypt.plaintext,
-        key: shiftEncrypt.key
-      }
-    })
-      .then(response => {
-        console.log("SUCCESS", response)
-        setEncryptedText(response)
-      }).catch(error => {
-        console.log(error)
-      })
-  }
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Cryptography Web App</h1>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="">Plaintext:
-              <input
-                type="text"
-                name="plaintext"
-                id="plain-text"
-                value={shiftEncrypt.plaintext}
-                onChange={handleChange} />
-            </label>
-          </div>
-          <div>
-            <label htmlFor="">Shift:
-              <input
-                type="number"
-                pattern='[0-9]'
-                name="key"
-                id="key-num"
-                value={shiftEncrypt.key}
-                onChange={handleChange} />
-            </label>
-          </div>
-          <Button name={'Encrypt'} />
-        </form>
+    <Router>
+      <div className="App">
+        <Nav />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/shift' element={<Shift />} />
+          <Route path='/vigenere' element={<Vigenere />} />
+          <Route path='/affine' element={<Affine />} />
+        </Routes>
+      </div>
+    </Router>
 
-        <div>{encryptedText.status === 200 &&
-          <div>
-            <h4>Encrypted Text:</h4>
-            <p>{encryptedText.data.ciphertext}</p>
-          </div>}
-        </div>
-      </header>
 
-    </div>
   );
 }
+
+const Home = () => (
+  <div className='App-header'>
+    <h1>Crypto Web App</h1>
+  </div>
+);
 
 export default App;
