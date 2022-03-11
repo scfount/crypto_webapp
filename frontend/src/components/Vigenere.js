@@ -43,7 +43,7 @@ function Vigenere() {
         <div className="App">
             <header className="App-header">
                 <h1>Vigenere Cipher</h1>
-                <form onSubmit={handleSubmit}>
+                {/* <form onSubmit={handleSubmit}>
                     <div>
                         <label htmlFor="">Plaintext:
                             <input
@@ -55,7 +55,7 @@ function Vigenere() {
                         </label>
                     </div>
                     <div>
-                        <label htmlFor="">Shift:
+                        <label htmlFor="">Key:
                             <input
                                 type="number"
                                 pattern='[0-9]'
@@ -66,7 +66,7 @@ function Vigenere() {
                         </label>
                     </div>
                     <Button name={'Encrypt'} />
-                </form>
+                </form> */}
 
                 <div>{encryptedText.status === 200 &&
                     <div>
