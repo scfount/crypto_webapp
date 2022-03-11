@@ -1,4 +1,3 @@
-
 import string
 from .constants import Constants
 
