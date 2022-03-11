@@ -11,7 +11,7 @@ class Affine:
 
     def encrypt(self):
         '''
-        Function -- 
+        Function --
             Affine Cipher encryption of plaintext
             y = ax + b % 26
         Parameters --
@@ -33,14 +33,15 @@ class Affine:
 
     def decrypt(self):
         '''
-         Function -- 
+         Function --
             Affine Cipher decryption of ciphertext
             x = a^-1 * (y - b) % 26
         Parameters --
         Returns --
             String, ciphertext
         '''
-        inverse = (1/self.alpha)
+        inverse = pow(self.alpha, -1, Constants.N)
+        print(inverse)
 
         ciphertext = self.text.translate(
             str.maketrans("", "", string.whitespace))
@@ -48,8 +49,10 @@ class Affine:
         plaintext = []
         for char in ciphertext:
             decrypt_char = (
-                inverse * (Constants.ALPHABET[char] - self.beta)) % Constants.N
-            plaintext.append(chr(decrypt_char + Constants.A_ORD))
+                (inverse * (Constants.ALPHABET[char] -
+                            self.beta)) % Constants.N)
+
+            plaintext.append(chr(int(decrypt_char) + Constants.A_ORD))
 
         decrypted_text = "".join(plaintext)
         return decrypted_text.upper()
