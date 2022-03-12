@@ -1,9 +1,9 @@
 import './App.css';
 import React from 'react';
 import Nav from './components/Nav';
-import Shift from './components/Shift';
-import Vigenere from './components/Vigenere';
-import Affine from './components/Affine';
+import Shift from './components/shift/Shift';
+import Vigenere from './components/vigenere/Vigenere';
+import Affine from './components/affine/Affine';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
