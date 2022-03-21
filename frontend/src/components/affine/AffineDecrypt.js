@@ -6,7 +6,7 @@ import Button from '../Button';
 function AffineDecrypt() {
     const [decryptedText, setDecryptedText] = useState({})
     const [affineDecrypt, setAffineDecrypt] = useState({
-        plaintext: '',
+        ciphertext: '',
         alpha: 0,
         beta: 0
     })
@@ -22,7 +22,7 @@ function AffineDecrypt() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // const path = 'http://127.0.0.1:5000/affine_encrypt'
+        // const path = 'http://127.0.0.1:5000/affine_decrypt'
         const path = 'https://cryptography-web-application.herokuapp.com/affine_decrypt'
         axios({
             method: 'POST',

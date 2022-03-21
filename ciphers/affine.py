@@ -41,7 +41,6 @@ class Affine:
             String, ciphertext
         '''
         inverse = pow(self.alpha, -1, Constants.N)
-        print(inverse)
 
         ciphertext = self.text.translate(
             str.maketrans("", "", string.whitespace))

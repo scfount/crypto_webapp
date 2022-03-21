@@ -6,7 +6,7 @@ import Button from '../Button';
 function ShiftDecrypt() {
     const [decryptedText, setDecryptedText] = useState({})
     const [shiftDecrypt, setShiftDecrypt] = useState({
-        plaintext: '',
+        ciphertext: '',
         key: 0
     })
 

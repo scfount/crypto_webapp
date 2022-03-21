@@ -50,7 +50,7 @@ class AffineDecrypt(Resource):
         alpha = int(request.json['alpha'])
         beta = int(request.json['beta'])
         affine = Affine(ciphertext, alpha, beta)
-        plaintext = affine.encrypt()
+        plaintext = affine.decrypt()
         return {
             'resultStatus': 'SUCCESS',
             'plaintext': plaintext

@@ -6,7 +6,7 @@ import Button from '../Button';
 function VigenereDecrypt() {
     const [decryptedText, setDecryptedText] = useState({})
     const [vigenereDecrypt, setVigenereDecrypt] = useState({
-        plaintext: '',
+        ciphertext: '',
         key: ''
     })
 
