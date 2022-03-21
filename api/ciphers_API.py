@@ -33,8 +33,8 @@ class AffineEncrypt(Resource):
 
     def post(self):
         plaintext = request.json['plaintext']
-        alpha = int(request.json('alpha'))
-        beta = int(request.json('beta'))
+        alpha = int(request.json['alpha'])
+        beta = int(request.json['beta'])
         affine = Affine(plaintext, alpha, beta)
         ciphertext = affine.encrypt()
         return {
@@ -47,8 +47,8 @@ class AffineDecrypt(Resource):
 
     def post(self):
         ciphertext = request.json['ciphertext']
-        alpha = int(request.json('alpha'))
-        beta = int(request.json('beta'))
+        alpha = int(request.json['alpha'])
+        beta = int(request.json['beta'])
         affine = Affine(ciphertext, alpha, beta)
         plaintext = affine.encrypt()
         return {
