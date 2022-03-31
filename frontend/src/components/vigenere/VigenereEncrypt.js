@@ -66,8 +66,8 @@ function VigenereEncrypt() {
                 <Button name={'Encrypt'} />
             </form>
 
-            <div>{encryptedText.status === 200 &&
-                <div>
+            <div className='text'>{encryptedText.status === 200 &&
+                <div >
                     <h4>Encrypted Text:</h4>
                     <p>{encryptedText.data.ciphertext}</p>
                 </div>}

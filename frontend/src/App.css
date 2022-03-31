@@ -74,6 +74,11 @@ button:hover {
   cursor: pointer;
 }
 
+.text {
+  inline-size: 300px;
+  overflow-wrap: break-word;
+}
+
 
 
 @media only screen and (max-width: 800px) {
