@@ -47,7 +47,7 @@ button {
   border: none;
   background-color: #282c34;
   color: white;
-  margin: 1em;
+  margin-top: .5em;
   padding: .5em 1.5em;
   width: 100%;
 }
