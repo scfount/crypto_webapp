@@ -20,6 +20,8 @@ function Vigenere() {
     );
 }
 
-const description = "Description for Vigenere"
+const description = "Vigenere Cipher is a polyalphabetic substitution cipher\
+ that uses a repeated word as its key over the course of the text, referencing\
+  a Vigenere table to encrypt/decrypt the text."
 
 export default Vigenere;

@@ -19,6 +19,9 @@ function Shift() {
         </div>
     );
 }
-const description = "Description for Shift"
+const description = "Shift Cipher is a simple substitution cipher that translates\
+ each letter of the alphabet into a number: A = 0 ... Z = 25, adds the specified key\
+ as the shift, then translates that new number back to a new letter within modulus\
+ 26."
 
 export default Shift;

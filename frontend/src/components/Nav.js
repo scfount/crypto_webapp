@@ -3,27 +3,24 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 function Nav() {
-    const navStyle = {
-        color: 'white',
-        textDecoration: 'none'
-    };
-
     return (
         <nav>
-            <Link style={navStyle} to='/'>
-                <h3>Cryptography</h3>
-            </Link>
-            <ul className='nav-links'>
-                <Link style={navStyle} to='/shift'>
-                    <li>Shift</li>
+            <div className='nav-links'>
+                <Link className='link' to='/'>
+                    <h3>Cryptography</h3>
                 </Link>
-                <Link style={navStyle} to='/vigenere'>
-                    <li>Vigenere</li>
-                </Link>
-                <Link style={navStyle} to='/affine'>
-                    <li>Affine</li>
-                </Link>
-            </ul>
+                <div className='links'>
+                    <Link className='link' to='/shift'>
+                        <p>Shift</p>
+                    </Link>
+                    <Link className='link' to='/vigenere'>
+                        <p>Vigenere</p>
+                    </Link>
+                    <Link className='link-end' to='/affine'>
+                        <p>Affine</p>
+                    </Link>
+                </div>
+            </div>
         </nav>
     );
 }
