@@ -10,15 +10,13 @@ function App() {
 
   return (
     <Router>
-      <div className="App">
-        <Nav />
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/shift' element={<Shift />} />
-          <Route path='/vigenere' element={<Vigenere />} />
-          <Route path='/affine' element={<Affine />} />
-        </Routes>
-      </div>
+      <Nav />
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/shift' element={<Shift />} />
+        <Route path='/vigenere' element={<Vigenere />} />
+        <Route path='/affine' element={<Affine />} />
+      </Routes>
     </Router>
 
 
@@ -26,8 +24,8 @@ function App() {
 }
 
 const Home = () => (
-  <div className='App-header'>
-    <h1>Crypto Web App</h1>
+  <div className='Container'>
+    <h1>Cryptography Web App</h1>
   </div>
 );
 

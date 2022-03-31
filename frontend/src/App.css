@@ -1,17 +1,23 @@
-.App {
+.Container {
   text-align: center;
 }
 
-.App-header {
-  align-items: center; 
-  flex-direction: column;
-  justify-content: center;
+.Description {
+  display: flex;
+  justify-content: space-around;
+  min-height: 10vh;
+  font-size: calc(10px + 2vmin);
+  align-items: center;
+}
+
+.Ciphers {
+  display: flex;
+  justify-content: space-evenly
 }
 
 nav {
   display: flex;
   justify-content: space-around;
-  align-items: center;
   min-height: 10vh;
   font-size: calc(10px + 2vmin);
   background-color: #282c34;
@@ -21,7 +27,7 @@ nav {
 .nav-links {
   width: 40%;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
   list-style: none;
 }

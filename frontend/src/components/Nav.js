@@ -11,7 +11,7 @@ function Nav() {
     return (
         <nav>
             <Link style={navStyle} to='/'>
-                <h3>Crypto</h3>
+                <h3>Cryptography</h3>
             </Link>
             <ul className='nav-links'>
                 <Link style={navStyle} to='/shift'>

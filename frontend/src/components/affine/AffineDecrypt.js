@@ -42,7 +42,7 @@ function AffineDecrypt() {
     }
 
     return (
-        <div className="App">
+        <div className="Cipher">
             <h2>Decrypt</h2>
             <form onSubmit={handleSubmit}>
                 <div>
