@@ -24,12 +24,12 @@ class Affine:
 
         ciphertext = []
         for char in plaintext:
-            if plaintext.isalpha():
+            if char.isalpha():
                 encrypt_char = (
                     (Constants.ALPHABET[char] * self.alpha) + self.beta) % Constants.N
                 ciphertext.append(chr(encrypt_char + Constants.A_ORD))
             else:
-                ciphertext.append(plaintext)
+                ciphertext.append(char)
 
         encrypted_text = "".join(ciphertext)
         return encrypted_text.upper()
@@ -50,13 +50,13 @@ class Affine:
 
         plaintext = []
         for char in ciphertext:
-            if ciphertext.isalpha():
+            if char.isalpha():
                 decrypt_char = (
                     (inverse * (Constants.ALPHABET[char] -
                                 self.beta)) % Constants.N)
                 plaintext.append(chr(int(decrypt_char) + Constants.A_ORD))
             else:
-                plaintext.append(ciphertext)
+                plaintext.append(char)
 
         decrypted_text = "".join(plaintext)
         return decrypted_text.upper()
