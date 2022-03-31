@@ -2,19 +2,6 @@
   text-align: center;
 }
 
-.Description {
-  display: flex;
-  justify-content: space-around;
-  min-height: 10vh;
-  font-size: calc(10px + 2vmin);
-  align-items: center;
-}
-
-.Ciphers {
-  display: flex;
-  justify-content: space-evenly
-}
-
 nav {
   display: flex;
   justify-content: space-around;
@@ -30,4 +17,48 @@ nav {
   justify-content: space-evenly;
   align-items: center;
   list-style: none;
+}
+
+p {
+  font-size: calc(10px + 2vmin);
+}
+
+.Description, .Ciphers {
+  display: flex;
+  justify-content: space-around;
+  font-size: calc(10px + 2vmin);
+  align-items: top;
+}
+
+form {
+  display: inline-block;
+  text-align: end;
+  align-items: top;
+}
+
+input, textarea {
+  margin-left: .5em;
+  padding: .5em;
+}
+
+button {
+  font-size: calc(5px + 2vmin);
+  border-radius: 1em;
+  background-color: #282c34;
+  color: white;
+  margin: 1em;
+  padding: .5em 1.5em;
+  width: 100%;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+
+
+@media only screen and (max-width: 600px) {
+  .Ciphers {
+    display: block;
+  }
 }

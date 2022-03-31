@@ -22,9 +22,12 @@ class Shift:
 
         ciphertext = []
         for char in plaintext:
-            encrypted_char = (
-                Constants.ALPHABET[char] + self.key) % Constants.N
-            ciphertext.append(chr(encrypted_char + Constants.A_ORD))
+            if plaintext.isalpha():
+                encrypted_char = (
+                    Constants.ALPHABET[char] + self.key) % Constants.N
+                ciphertext.append(chr(encrypted_char + Constants.A_ORD))
+            else:
+                ciphertext.append(plaintext)
 
         encrypted_text = "".join(ciphertext)
         return encrypted_text.upper()
@@ -43,9 +46,12 @@ class Shift:
 
         plaintext = []
         for char in ciphertext:
-            decrypted_char = (
-                Constants.ALPHABET[char] - self.key) % Constants.N
-            plaintext.append(chr(decrypted_char + Constants.A_ORD))
+            if ciphertext.isalpha():
+                decrypted_char = (
+                    Constants.ALPHABET[char] - self.key) % Constants.N
+                plaintext.append(chr(decrypted_char + Constants.A_ORD))
+            else:
+                plaintext.append(ciphertext)
 
         decrypted_text = "".join(plaintext)
         return decrypted_text.upper()

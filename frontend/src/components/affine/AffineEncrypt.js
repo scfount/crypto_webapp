@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios'
 import '../../App.css';
 import Button from '../Button';
@@ -42,8 +42,8 @@ function AffineEncrypt() {
     }
 
     return (
-        <div className="Cipher">
-            <h2>Encrypt</h2>
+        <div>
+            <h3>Encryption</h3>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="">Plaintext:

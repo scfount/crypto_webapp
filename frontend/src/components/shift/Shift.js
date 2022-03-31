@@ -1,5 +1,6 @@
 import React from 'react';
 import '../../App.css';
+import Description from '../Description';
 import ShiftEncrypt from './ShiftEncrypt';
 import ShiftDecrypt from './ShiftDecrypt';
 
@@ -7,12 +8,17 @@ function Shift() {
 
 
     return (
-        <div className="App">
+        <div className="Container">
             <h1>Shift Cipher</h1>
-            <ShiftEncrypt />
-            <ShiftDecrypt />
+            <Description content={description} />
+            <div className='Ciphers'>
+                <ShiftEncrypt />
+                <ShiftDecrypt />
+            </div>
+
         </div>
     );
 }
+const description = "Description for Shift"
 
 export default Shift;

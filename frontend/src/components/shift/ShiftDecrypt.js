@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios'
 import '../../App.css';
 import Button from '../Button';
@@ -40,8 +40,8 @@ function ShiftDecrypt() {
     }
 
     return (
-        <div className="App">
-            <h2>Decrypt</h2>
+        <div>
+            <h3>Decryption</h3>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="">Ciphertext:

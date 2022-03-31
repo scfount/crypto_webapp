@@ -22,9 +22,12 @@ class Vigenere:
         ciphertext = []
 
         for i in range(len(plaintext)):
-            encrypt_char = (Constants.ALPHABET[plaintext[i]] +
-                            Constants.ALPHABET[self.key[(i % len(self.key))]]) % Constants.N
-            ciphertext.append(chr(encrypt_char + Constants.A_ORD))
+            if plaintext[i].isalpha():
+                encrypt_char = (Constants.ALPHABET[plaintext[i]] +
+                                Constants.ALPHABET[self.key[(i % len(self.key))]]) % Constants.N
+                ciphertext.append(chr(encrypt_char + Constants.A_ORD))
+            else:
+                ciphertext.append(plaintext[i])
 
         encrypted_text = "".join(ciphertext)
         return encrypted_text.upper()
@@ -41,9 +44,12 @@ class Vigenere:
 
         plaintext = []
         for i in range(len(ciphertext)):
-            decrypted_char = (
-                Constants.ALPHABET[ciphertext[i]] - Constants.ALPHABET[self.key[(i % len(self.key))]]) % Constants.N
-            plaintext.append(chr(decrypted_char + Constants.A_ORD))
+            if ciphertext[i].isalpha():
+                decrypted_char = (
+                    Constants.ALPHABET[ciphertext[i]] - Constants.ALPHABET[self.key[(i % len(self.key))]]) % Constants.N
+                plaintext.append(chr(decrypted_char + Constants.A_ORD))
+            else:
+                plaintext.append(ciphertext[i])
 
         decrypted_text = "".join(plaintext)
         return decrypted_text.upper()

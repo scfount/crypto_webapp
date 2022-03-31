@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 
 class Description extends Component {
-    // name = this.props.name || 'Submit';
+    content = this.props.content || ':)';
     render() {
         return (
             <div>
                 <p>
-                    This is a description of the [cipher name] cipher
+                    {this.content}
                 </p>
             </div>
         );
