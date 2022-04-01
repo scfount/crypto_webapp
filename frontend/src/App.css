@@ -3,6 +3,7 @@
   margin-right: auto;
   text-align: left;
   width: 80%;
+  padding-right: 1em;
 }
 
 nav {
@@ -29,11 +30,11 @@ nav {
   color: white;
   text-decoration: none;
   list-style: none;
-  margin-right: 1em;
+  padding-right: 1rem;
 }
 
 .link-end {
-  margin-right: 0;
+  /* margin-right: 0; */
 }
 
 p {
@@ -46,6 +47,7 @@ p {
   justify-content: space-around;
   font-size: calc(10px + 2vmin);
   align-items: top;
+  margin-right: 10rem;
 }
 
 form {
