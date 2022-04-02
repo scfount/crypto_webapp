@@ -11,13 +11,13 @@ function Nav() {
                 </Link>
                 <div className='links'>
                     <Link className='link' to='/shift'>
-                        <p>Shift</p>
+                        <li>Shift</li>
                     </Link>
                     <Link className='link' to='/vigenere'>
-                        <p>Vigenere</p>
+                        <li>Vigenere</li>
                     </Link>
                     <Link className='link-end' to='/affine'>
-                        <p>Affine</p>
+                        <li>Affine</li>
                     </Link>
                 </div>
             </div>

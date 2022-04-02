@@ -3,7 +3,6 @@
   margin-right: auto;
   text-align: left;
   width: 80%;
-  padding-right: 1em;
 }
 
 nav {
@@ -34,7 +33,7 @@ nav {
 }
 
 .link-end {
-  /* margin-right: 0; */
+  padding-right: 0;
 }
 
 p {
@@ -47,7 +46,6 @@ p {
   justify-content: space-around;
   font-size: calc(10px + 2vmin);
   align-items: top;
-  margin-right: 10rem;
 }
 
 form {
@@ -85,7 +83,8 @@ button:hover {
 
 @media only screen and (max-width: 800px) {
 
-  .Ciphers {
+  .Ciphers,
+  .links {
     display: block;
   }
 }
