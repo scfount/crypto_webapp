@@ -7,7 +7,7 @@ function VigenereDecrypt() {
     const [decryptedText, setDecryptedText] = useState({})
     const [vigenereDecrypt, setVigenereDecrypt] = useState({
         ciphertext: '',
-        key: ''
+        key: null
     })
 
     const handleChange = (event) => {
@@ -21,8 +21,15 @@ function VigenereDecrypt() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // const path = 'http://127.0.0.1:5000/vigenere_encrypt'
-        const path = 'https://cryptography-web-application.herokuapp.com/vigenere_decrypt'
+        const path = ""
+        if (vigenereDecrypt.key == null) {
+            path = 'http://127.0.0.1:5000/vigenere_encrypt_no_key'
+            // path = 'https://cryptography-web-application.herokuapp.com/vigenere_decrypt_nokey'
+        }
+        else {
+            path = 'http://127.0.0.1:5000/vigenere_encrypt'
+            // path = 'https://cryptography-web-application.herokuapp.com/vigenere_decrypt'
+        }
         axios({
             method: 'POST',
             url: path,

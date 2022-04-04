@@ -53,3 +53,6 @@ class Vigenere:
 
         decrypted_text = "".join(plaintext)
         return decrypted_text.upper()
+
+    def decrypt_no_key(self):
+        return None

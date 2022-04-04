@@ -13,3 +13,10 @@ def test_decrypt():
     key = '1'
     shift = Shift(ciphertext, key)
     assert(shift.decrypt() == 'ABC')
+
+
+def test_decrypt_no_key():
+    ciphertext = 'HAAHJRHAKHDUWSLHZL'
+    key = ""
+    shift = Shift(ciphertext, key)
+    assert(shift.decrypt_no_key() == 'ABC')

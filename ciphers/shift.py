@@ -1,4 +1,7 @@
+from heapq import heapify
 import string
+from ciphers.chi_squared import Chi_Squared
+from ciphers.decryption import Decryption
 from .constants import Constants
 
 
@@ -6,7 +9,13 @@ class Shift:
 
     def __init__(self, text, key) -> None:
         self.text = text.lower()
-        self.key = int(key)
+        self.key = self.check_key(key)
+
+    def check_key(self, key):
+        if key.isnumeric():
+            return int(key)
+        else:
+            return None
 
     def encrypt(self):
         '''
@@ -56,24 +65,36 @@ class Shift:
         decrypted_text = "".join(plaintext)
         return decrypted_text.upper()
 
-# for unknown key decrypt
+    def decrypt_no_key(self):
+        """_summary_
 
-        # def decrypt(self):
-        # N = 26
-        # a_ord = ord('a')
+        Returns:
+            _type_: _description_
+        """
+        ciphertext = self.text.translate(
+            str.maketrans("", "", string.whitespace))
 
-        # ciphertext = ciphertext.translate(
-        #     str.maketrans("", "", string.whitespace))
+        decryptions = []
+        for key in range(1, Constants.N):
+            plaintext = []
+            for char in ciphertext.lower():
+                if char.isalpha():
+                    decrypted_char = (
+                        Constants.ALPHABET[char] - key) % Constants.N
+                    plaintext.append(chr(decrypted_char + Constants.A_ORD))
+                else:
+                    plaintext.append(char)
 
-        # decryptions = {}
-        # for key in range(N):
-        #     plaintext = []
-        #     for char in ciphertext.lower():
-        #         char_to_ord_shifted = (ord(char) - (key + a_ord)) % N
-        #         ord_to_plaintext = chr(char_to_ord_shifted + a_ord)
-        #         plaintext.append(ord_to_plaintext)
-        #     decryptions[key] = "".join(plaintext)
-        # return {
-        #     'resultStatus': 'SUCCESS',
-        #     'decryptions': decryptions
-        # }
+            decryption = Decryption("".join(plaintext), key)
+            decryptions.append(decryption)
+
+        chi_squared = Chi_Squared(len(ciphertext))
+        for decryption in decryptions:
+            decryption.chi_squared = chi_squared.calculate_chi_squared(
+                decryption)
+
+        heapify(decryptions)
+        for d in decryptions:
+            print(d)
+
+        return decryptions

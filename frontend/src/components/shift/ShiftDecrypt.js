@@ -7,7 +7,7 @@ function ShiftDecrypt() {
     const [decryptedText, setDecryptedText] = useState({})
     const [shiftDecrypt, setShiftDecrypt] = useState({
         ciphertext: '',
-        key: 0
+        key: null
     })
 
     const handleChange = (event) => {
@@ -21,8 +21,16 @@ function ShiftDecrypt() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // const path = 'http://127.0.0.1:5000/shift_encrypt'
-        const path = 'https://cryptography-web-application.herokuapp.com/shift_decrypt'
+        const path = ""
+        if (shiftDecrypt.key == null) {
+            path = 'http://127.0.0.1:5000/shift_encrypt_no_key'
+            // path = 'https://cryptography-web-application.herokuapp.com/shift_decrypt_nokey'
+        }
+        else {
+            path = 'http://127.0.0.1:5000/shift_encrypt'
+            // path = 'https://cryptography-web-application.herokuapp.com/shift_decrypt'
+        }
+
         axios({
             method: 'POST',
             url: path,

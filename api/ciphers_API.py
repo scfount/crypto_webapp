@@ -29,28 +29,12 @@ class ShiftDecrypt(Resource):
         }
 
 
-class AffineEncrypt(Resource):
-
-    def post(self):
-        plaintext = request.json['plaintext']
-        alpha = int(request.json['alpha'])
-        beta = int(request.json['beta'])
-        affine = Affine(plaintext, alpha, beta)
-        ciphertext = affine.encrypt()
-        return {
-            'resultStatus': 'SUCCESS',
-            'ciphertext': ciphertext
-        }
-
-
-class AffineDecrypt(Resource):
-
+class ShiftDecryptNoKey(Resource):
     def post(self):
         ciphertext = request.json['ciphertext']
-        alpha = int(request.json['alpha'])
-        beta = int(request.json['beta'])
-        affine = Affine(ciphertext, alpha, beta)
-        plaintext = affine.decrypt()
+        key = ""
+        shift = Shift(ciphertext, key)
+        plaintext = shift.decrypt_no_key()
         return {
             'resultStatus': 'SUCCESS',
             'plaintext': plaintext
@@ -75,6 +59,46 @@ class VigenereDecrypt(Resource):
         key = request.json['key']
         vigenere = Vigenere(ciphertext, key)
         plaintext = vigenere.decrypt()
+        return {
+            'resultStatus': 'SUCCESS',
+            'plaintext': plaintext
+        }
+
+
+class VigenereDecryptNoKey(Resource):
+    def post(self):
+        ciphertext = request.json['ciphertext']
+        key = ""
+        vigenere = Vigenere(ciphertext, key)
+        plaintext = vigenere.decrypt_no_key()
+        return {
+            'resultStatus': 'SUCCESS',
+            'plaintext': plaintext
+        }
+
+
+class AffineEncrypt(Resource):
+
+    def post(self):
+        plaintext = request.json['plaintext']
+        alpha = int(request.json['alpha'])
+        beta = int(request.json['beta'])
+        affine = Affine(plaintext, alpha, beta)
+        ciphertext = affine.encrypt()
+        return {
+            'resultStatus': 'SUCCESS',
+            'ciphertext': ciphertext
+        }
+
+
+class AffineDecrypt(Resource):
+
+    def post(self):
+        ciphertext = request.json['ciphertext']
+        alpha = int(request.json['alpha'])
+        beta = int(request.json['beta'])
+        affine = Affine(ciphertext, alpha, beta)
+        plaintext = affine.decrypt()
         return {
             'resultStatus': 'SUCCESS',
             'plaintext': plaintext
