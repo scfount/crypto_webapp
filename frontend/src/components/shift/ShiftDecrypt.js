@@ -39,7 +39,7 @@ function ShiftDecrypt() {
         event.preventDefault();
         if (shiftDecrypt.key == "") {
             // const path = 'http://127.0.0.1:5000/shift_decrypt_no_key'
-            const path = 'https://cryptography-web-application.herokuapp.com/shift_decrypt_nokey'
+            const path = 'https://cryptography-web-application.herokuapp.com/shift_decrypt_no_key'
             getDecryptions(path)
         }
 
