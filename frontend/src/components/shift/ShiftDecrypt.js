@@ -38,14 +38,14 @@ function ShiftDecrypt() {
     const handleSubmit = (event) => {
         event.preventDefault();
         if (shiftDecrypt.key == "") {
-            const path = 'http://127.0.0.1:5000/shift_decrypt_no_key'
-            // const path = 'https://cryptography-web-application.herokuapp.com/shift_decrypt_nokey'
+            // const path = 'http://127.0.0.1:5000/shift_decrypt_no_key'
+            const path = 'https://cryptography-web-application.herokuapp.com/shift_decrypt_nokey'
             getDecryptions(path)
         }
 
         else {
-            const path = 'http://127.0.0.1:5000/shift_decrypt'
-            // const path = 'https://cryptography-web-application.herokuapp.com/shift_decrypt'
+            // const path = 'http://127.0.0.1:5000/shift_decrypt'
+            const path = 'https://cryptography-web-application.herokuapp.com/shift_decrypt'
             getDecryptions(path)
         }
     }
