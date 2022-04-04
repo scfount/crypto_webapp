@@ -5,7 +5,7 @@ import Shift from './components/shift/Shift';
 import Vigenere from './components/vigenere/Vigenere';
 import Affine from './components/affine/Affine';
 import { HashRouter } from 'react-router-dom'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Routes, Route } from 'react-router-dom';
 import Description from './components/Description';
 
 function App() {

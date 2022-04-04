@@ -19,9 +19,9 @@ function Affine() {
     );
 }
 
-const description = "Affine Cipher is a monoalphabetic substitution cipher where\
+const description = "Affine Cipher is a mono-alphabetic substitution cipher where\
  each letter is translated into a number using a mathematical function, then\
  translated back into a letter within modulus 26. The alpha value and size of\
- of the alphabet must be coprime, otherwise decryption may not be possible."
+ the alphabet must be co-prime, otherwise decryption may not be possible."
 
 export default Affine;
