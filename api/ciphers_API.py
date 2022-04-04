@@ -35,9 +35,13 @@ class ShiftDecryptNoKey(Resource):
         key = ""
         shift = Shift(ciphertext, key)
         plaintext = shift.decrypt_no_key()
+        plaintext_JSON = []
+        for text in plaintext:
+            plaintext_JSON.append(text.toJSON())
+
         return {
             'resultStatus': 'SUCCESS',
-            'plaintext': plaintext
+            'plaintext': plaintext_JSON
         }
 
 

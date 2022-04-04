@@ -94,7 +94,5 @@ class Shift:
                 decryption)
 
         heapify(decryptions)
-        for d in decryptions:
-            print(d)
 
         return decryptions

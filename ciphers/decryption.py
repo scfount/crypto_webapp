@@ -1,3 +1,5 @@
+import json
+
 
 class Decryption:
 
@@ -11,3 +13,6 @@ class Decryption:
 
     def __lt__(self, other):
         return self.chi_squared < other.chi_squared
+
+    def toJSON(self):
+        return json.dumps(self, default=lambda o: o.__dict__, indent=2)

@@ -6,8 +6,8 @@ import Button from '../Button';
 function ShiftDecrypt() {
     const [decryptedText, setDecryptedText] = useState({})
     const [shiftDecrypt, setShiftDecrypt] = useState({
-        ciphertext: '',
-        key: null
+        ciphertext: "",
+        key: ""
     })
 
     const handleChange = (event) => {
@@ -18,19 +18,7 @@ function ShiftDecrypt() {
         });
     };
 
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const path = ""
-        if (shiftDecrypt.key == null) {
-            path = 'http://127.0.0.1:5000/shift_encrypt_no_key'
-            // path = 'https://cryptography-web-application.herokuapp.com/shift_decrypt_nokey'
-        }
-        else {
-            path = 'http://127.0.0.1:5000/shift_encrypt'
-            // path = 'https://cryptography-web-application.herokuapp.com/shift_decrypt'
-        }
-
+    const getDecryptions = (path) => {
         axios({
             method: 'POST',
             url: path,
@@ -45,6 +33,21 @@ function ShiftDecrypt() {
             }).catch(error => {
                 console.log(error)
             })
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        if (shiftDecrypt.key == "") {
+            const path = 'http://127.0.0.1:5000/shift_decrypt_no_key'
+            // const path = 'https://cryptography-web-application.herokuapp.com/shift_decrypt_nokey'
+            getDecryptions(path)
+        }
+
+        else {
+            const path = 'http://127.0.0.1:5000/shift_decrypt'
+            // const path = 'https://cryptography-web-application.herokuapp.com/shift_decrypt'
+            getDecryptions(path)
+        }
     }
 
     return (

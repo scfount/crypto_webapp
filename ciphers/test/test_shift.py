@@ -19,4 +19,5 @@ def test_decrypt_no_key():
     ciphertext = 'HAAHJRHAKHDUWSLHZL'
     key = ""
     shift = Shift(ciphertext, key)
-    assert(shift.decrypt_no_key() == 'ABC')
+    decryptions = shift.decrypt_no_key()
+    assert(decryptions[0].text == 'attackatdawnplease')
