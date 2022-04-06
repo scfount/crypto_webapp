@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios'
 import '../../App.css';
 import Button from '../Button';
+import Card from '../Card';
 
 function ShiftDecrypt() {
     const [decryptedText, setDecryptedText] = useState({})
@@ -37,7 +38,7 @@ function ShiftDecrypt() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (shiftDecrypt.key == "") {
+        if (isNaN(parseInt(shiftDecrypt.key))) {
             // const path = 'http://127.0.0.1:5000/shift_decrypt_no_key'
             const path = 'https://cryptography-web-application.herokuapp.com/shift_decrypt_no_key'
             getDecryptions(path)
@@ -81,7 +82,8 @@ function ShiftDecrypt() {
             <div className='text'>{decryptedText.status === 200 &&
                 <div>
                     <h4>Decrypted Text:</h4>
-                    <p>{decryptedText.data.plaintext}</p>
+                    <Card text={decryptedText.data.plaintext} key={shiftDecrypt.key} />
+                    {/* <p>{decryptedText.data.plaintext}</p> */}
                 </div>}
             </div>
 

@@ -1,5 +1,5 @@
 import '../App.css';
-import React from 'react';
+import { React, Component } from 'react';
 import Nav from './Nav';
 import Shift from './shift/Shift';
 import Vigenere from './vigenere/Vigenere';
@@ -7,19 +7,21 @@ import Affine from './affine/Affine';
 import Description from './Description';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom'
 
-function HomePage() {
+class HomePage extends Component {
 
-    return (
-        <Router>
-            <Nav />
-            <Routes>
-                <Route path='/shift' element={<Shift />} />
-                <Route path='/vigenere' element={<Vigenere />} />
-                <Route path='/affine' element={<Affine />} />
-                <Route path='/' element={<Home />} />
-            </Routes>
-        </Router>
-    );
+    render() {
+        return (
+            <Router>
+                <Nav />
+                <Routes>
+                    <Route path='/shift' element={<Shift />} />
+                    <Route path='/vigenere' element={<Vigenere />} />
+                    <Route path='/affine' element={<Affine />} />
+                    <Route path='/' element={<Home />} />
+                </Routes>
+            </Router >
+        );
+    }
 }
 
 const Home = () => (
