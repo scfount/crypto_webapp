@@ -79,6 +79,11 @@ button:hover {
   overflow-wrap: break-word;
 }
 
+.card {
+  border-color: #282c34;
+  border-width: 1em;
+}
+
 
 
 @media only screen and (max-width: 800px) {

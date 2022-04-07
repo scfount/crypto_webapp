@@ -2,18 +2,19 @@ import React, { useState } from 'react';
 import axios from 'axios'
 import '../../App.css';
 import Button from '../Button';
+import Card from '../Card';
 
 function ShiftEncrypt() {
-    const [encryptedText, setEncryptedText] = useState({})
-    const [shiftEncrypt, setShiftEncrypt] = useState({
-        plaintext: '',
+    const [response, setResponse] = useState({})
+    const [plaintext, setPlaintext] = useState({
+        text: '',
         key: 0
     })
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setShiftEncrypt({
-            ...shiftEncrypt,
+        setPlaintext({
+            ...plaintext,
             [name]: value
         });
     };
@@ -27,13 +28,13 @@ function ShiftEncrypt() {
             method: 'POST',
             url: path,
             data: {
-                plaintext: shiftEncrypt.plaintext,
-                key: shiftEncrypt.key
+                text: plaintext.text,
+                key: plaintext.key
             }
         })
             .then(response => {
                 console.log("SUCCESS", response)
-                setEncryptedText(response)
+                setResponse(response)
             }).catch(error => {
                 console.log(error)
             })
@@ -47,9 +48,9 @@ function ShiftEncrypt() {
                     <label htmlFor="">Plaintext:
                         <input
                             type="text"
-                            name="plaintext"
+                            name="text"
                             id="plain-text"
-                            value={shiftEncrypt.plaintext}
+                            value={plaintext.text}
                             onChange={handleChange} />
                     </label>
                 </div>
@@ -60,20 +61,20 @@ function ShiftEncrypt() {
                             pattern='[0-9]'
                             name="key"
                             id="key-num"
-                            value={shiftEncrypt.key}
+                            value={plaintext.key}
                             onChange={handleChange} />
                     </label>
                 </div>
                 <Button name={'Encrypt'} />
             </form>
 
-            <div className='text'>{encryptedText.status === 200 &&
-                <div>
-                    <h4>Encrypted Text:</h4>
-                    <p>{encryptedText.data.ciphertext}</p>
-                </div>}
+            <div className='text'>
+                {response.status === 200 &&
+                    <div>
+                        <h4>Encrypted Text:</h4>
+                        <Card text={response.data.ciphertext} shiftKey={null} key={response.data.ciphertext} />
+                    </div>}
             </div>
-
         </div>
     );
 }

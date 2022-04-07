@@ -1,13 +1,18 @@
 import { React, Component } from 'react';
+import '../App.css';
 
 class Card extends Component {
     text = this.props.text || 'text';
-    key = this.props.key || 'key';
+    key = this.props.shiftKey || null;
     render() {
         return (
-            <div>
-                <p>{this.text}</p>
-                <p>{this.key}</p>
+            <div className='card'>
+                <p>Text: {this.text.toUpperCase()}</p>
+                {
+                    (this.key != null) &&
+                    <p>Key: {this.key}</p>
+                }
+
             </div>
         );
     }

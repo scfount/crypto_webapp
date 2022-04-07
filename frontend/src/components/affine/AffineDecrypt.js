@@ -2,19 +2,20 @@ import React, { useState } from 'react';
 import axios from 'axios'
 import '../../App.css';
 import Button from '../Button';
+import Card from '../Card';
 
 function AffineDecrypt() {
-    const [decryptedText, setDecryptedText] = useState({})
-    const [affineDecrypt, setAffineDecrypt] = useState({
-        ciphertext: '',
+    const [response, setResponse] = useState({})
+    const [ciphertext, setCiphertext] = useState({
+        text: '',
         alpha: 0,
         beta: 0
     })
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setAffineDecrypt({
-            ...affineDecrypt,
+        setCiphertext({
+            ...ciphertext,
             [name]: value
         });
     };
@@ -28,14 +29,14 @@ function AffineDecrypt() {
             method: 'POST',
             url: path,
             data: {
-                ciphertext: affineDecrypt.ciphertext,
-                alpha: affineDecrypt.alpha,
-                beta: affineDecrypt.beta
+                text: ciphertext.text,
+                alpha: ciphertext.alpha,
+                beta: ciphertext.beta
             }
         })
             .then(response => {
                 console.log("SUCCESS", response)
-                setDecryptedText(response)
+                setResponse(response)
             }).catch(error => {
                 console.log(error)
             })
@@ -49,9 +50,9 @@ function AffineDecrypt() {
                     <label htmlFor="">Ciphertext:
                         <input
                             type="text"
-                            name="ciphertext"
+                            name="text"
                             id="cipher-text"
-                            value={affineDecrypt.ciphertext}
+                            value={ciphertext.text}
                             onChange={handleChange} />
                     </label>
                 </div>
@@ -62,7 +63,7 @@ function AffineDecrypt() {
                             pattern='[0-9]'
                             name="alpha"
                             id="alpha-num"
-                            value={affineDecrypt.alpha}
+                            value={ciphertext.alpha}
                             onChange={handleChange} />
                     </label>
                 </div>
@@ -73,20 +74,20 @@ function AffineDecrypt() {
                             pattern='[0-9]'
                             name="beta"
                             id="beta-num"
-                            value={affineDecrypt.beta}
+                            value={ciphertext.beta}
                             onChange={handleChange} />
                     </label>
                 </div>
                 <Button name={'Decrypt'} />
             </form>
 
-            <div className='text'>{decryptedText.status === 200 &&
-                <div>
-                    <h4>Decrypted Text:</h4>
-                    <p>{decryptedText.data.plaintext}</p>
-                </div>}
+            <div className='text'>
+                {response.status === 200 &&
+                    <div>
+                        <h4>Decrypted Text:</h4>
+                        <Card text={response.data.plaintext} shiftKey={null} key={response.data.plaintext} />
+                    </div>}
             </div>
-
         </div>
     );
 }

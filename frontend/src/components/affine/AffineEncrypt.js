@@ -2,19 +2,20 @@ import React, { useState } from 'react';
 import axios from 'axios'
 import '../../App.css';
 import Button from '../Button';
+import Card from '../Card';
 
 function AffineEncrypt() {
-    const [encryptedText, setEncryptedText] = useState({})
-    const [affineEncrypt, setAffineEncrypt] = useState({
-        plaintext: '',
+    const [response, setResponse] = useState({})
+    const [plaintext, setPlaintext] = useState({
+        text: '',
         alpha: 0,
         beta: 0
     })
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setAffineEncrypt({
-            ...affineEncrypt,
+        setPlaintext({
+            ...plaintext,
             [name]: value
         });
     };
@@ -28,14 +29,14 @@ function AffineEncrypt() {
             method: 'POST',
             url: path,
             data: {
-                plaintext: affineEncrypt.plaintext,
-                alpha: affineEncrypt.alpha,
-                beta: affineEncrypt.beta
+                text: plaintext.text,
+                alpha: plaintext.alpha,
+                beta: plaintext.beta
             }
         })
             .then(response => {
                 console.log("SUCCESS", response)
-                setEncryptedText(response)
+                setResponse(response)
             }).catch(error => {
                 console.log(error)
             })
@@ -49,9 +50,9 @@ function AffineEncrypt() {
                     <label htmlFor="">Plaintext:
                         <input
                             type="text"
-                            name="plaintext"
-                            id="plain-text"
-                            value={affineEncrypt.plaintext}
+                            name="text"
+                            id="plaintext"
+                            value={plaintext.text}
                             onChange={handleChange} />
                     </label>
                 </div>
@@ -62,7 +63,7 @@ function AffineEncrypt() {
                             pattern='[0-9]'
                             name="alpha"
                             id="alpha-num"
-                            value={affineEncrypt.alpha}
+                            value={plaintext.alpha}
                             onChange={handleChange} />
                     </label>
                 </div>
@@ -73,20 +74,20 @@ function AffineEncrypt() {
                             pattern='[0-9]'
                             name="beta"
                             id="beta-num"
-                            value={affineEncrypt.beta}
+                            value={plaintext.beta}
                             onChange={handleChange} />
                     </label>
                 </div>
                 <Button name={'Encrypt'} />
             </form>
 
-            <div className='text'>{encryptedText.status === 200 &&
-                <div>
-                    <h4>Encrypted Text:</h4>
-                    <p>{encryptedText.data.ciphertext}</p>
-                </div>}
+            <div className='text'>
+                {response.status === 200 &&
+                    <div>
+                        <h4>Encrypted Text:</h4>
+                        <Card text={response.data.ciphertext} shiftKey={null} key={response.data.ciphertext} />
+                    </div>}
             </div>
-
         </div>
     );
 }

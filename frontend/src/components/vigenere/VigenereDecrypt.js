@@ -2,18 +2,19 @@ import React, { useState } from 'react';
 import axios from 'axios'
 import '../../App.css';
 import Button from '../Button';
+import Card from '../Card';
 
 function VigenereDecrypt() {
-    const [decryptedText, setDecryptedText] = useState({})
-    const [vigenereDecrypt, setVigenereDecrypt] = useState({
-        ciphertext: '',
-        key: null
+    const [response, setResponse] = useState({})
+    const [ciphertext, setCiphertext] = useState({
+        text: "",
+        key: ""
     })
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setVigenereDecrypt({
-            ...vigenereDecrypt,
+        setCiphertext({
+            ...ciphertext,
             [name]: value
         });
     };
@@ -21,26 +22,19 @@ function VigenereDecrypt() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const path = ""
-        if (vigenereDecrypt.key == null) {
-            path = 'http://127.0.0.1:5000/vigenere_encrypt_no_key'
-            // path = 'https://cryptography-web-application.herokuapp.com/vigenere_decrypt_nokey'
-        }
-        else {
-            path = 'http://127.0.0.1:5000/vigenere_encrypt'
-            // path = 'https://cryptography-web-application.herokuapp.com/vigenere_decrypt'
-        }
+        // const path = 'http://127.0.0.1:5000/vigenere_decrypt'
+        const path = 'https://cryptography-web-application.herokuapp.com/vigenere_decrypt'
         axios({
             method: 'POST',
             url: path,
             data: {
-                ciphertext: vigenereDecrypt.ciphertext,
-                key: vigenereDecrypt.key
+                text: ciphertext.text,
+                key: ciphertext.key
             }
         })
             .then(response => {
                 console.log("SUCCESS", response)
-                setDecryptedText(response)
+                setResponse(response)
             }).catch(error => {
                 console.log(error)
             })
@@ -54,9 +48,9 @@ function VigenereDecrypt() {
                     <label htmlFor="">Ciphertext:
                         <input
                             type="text"
-                            name="ciphertext"
+                            name="text"
                             id="cipher-text"
-                            value={vigenereDecrypt.ciphertext}
+                            value={ciphertext.text}
                             onChange={handleChange} />
                     </label>
                 </div>
@@ -66,20 +60,19 @@ function VigenereDecrypt() {
                             type="text"
                             name="key"
                             id="key-value"
-                            value={vigenereDecrypt.key}
+                            value={ciphertext.key}
                             onChange={handleChange} />
                     </label>
                 </div>
                 <Button name={'Decrypt'} />
             </form>
 
-            <div className='text'>{decryptedText.status === 200 &&
+            <div className='text'>{response.status === 200 &&
                 <div>
                     <h4>Decrypted Text:</h4>
-                    <p>{decryptedText.data.plaintext}</p>
+                    <Card text={response.data.plaintext} shiftKey={null} key={response.data.plaintext} />
                 </div>}
             </div>
-
         </div>
     );
 }

@@ -2,18 +2,19 @@ import React, { useState } from 'react';
 import axios from 'axios'
 import '../../App.css';
 import Button from '../Button';
+import Card from '../Card';
 
 function VigenereEncrypt() {
-    const [encryptedText, setEncryptedText] = useState({})
-    const [vigenereEncrypt, setVigenereEncrypt] = useState({
-        plaintext: '',
+    const [response, setResponse] = useState({})
+    const [plaintext, setPlaintext] = useState({
+        text: '',
         key: ''
     })
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setVigenereEncrypt({
-            ...vigenereEncrypt,
+        setPlaintext({
+            ...plaintext,
             [name]: value
         });
     };
@@ -27,13 +28,13 @@ function VigenereEncrypt() {
             method: 'POST',
             url: path,
             data: {
-                plaintext: vigenereEncrypt.plaintext,
-                key: vigenereEncrypt.key
+                text: plaintext.text,
+                key: plaintext.key
             }
         })
             .then(response => {
                 console.log("SUCCESS", response)
-                setEncryptedText(response)
+                setResponse(response)
             }).catch(error => {
                 console.log(error)
             })
@@ -47,9 +48,9 @@ function VigenereEncrypt() {
                     <label htmlFor="">Plaintext:
                         <input
                             type="text"
-                            name="plaintext"
+                            name="text"
                             id="plain-text"
-                            value={vigenereEncrypt.plaintext}
+                            value={plaintext.text}
                             onChange={handleChange} />
                     </label>
                 </div>
@@ -59,17 +60,17 @@ function VigenereEncrypt() {
                             type="text"
                             name="key"
                             id="key-value"
-                            value={vigenereEncrypt.key}
+                            value={plaintext.key}
                             onChange={handleChange} />
                     </label>
                 </div>
                 <Button name={'Encrypt'} />
             </form>
 
-            <div className='text'>{encryptedText.status === 200 &&
+            <div className='text'>{response.status === 200 &&
                 <div >
                     <h4>Encrypted Text:</h4>
-                    <p>{encryptedText.data.ciphertext}</p>
+                    <Card text={response.data.ciphertext} shiftKey={null} key={response.data.ciphertext} />
                 </div>}
             </div>
         </div>

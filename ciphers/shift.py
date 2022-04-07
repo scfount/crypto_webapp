@@ -62,8 +62,9 @@ class Shift:
             else:
                 plaintext.append(char)
 
-        decrypted_text = "".join(plaintext)
-        return decrypted_text.upper()
+        decryption = Decryption("".join(plaintext), self.key)
+
+        return [decryption]
 
     def decrypt_no_key(self):
         """_summary_

@@ -5,50 +5,38 @@ import Button from '../Button';
 import Card from '../Card';
 
 function ShiftDecrypt() {
-    const [decryptedText, setDecryptedText] = useState({})
-    const [shiftDecrypt, setShiftDecrypt] = useState({
-        ciphertext: "",
+    const [response, setResponse] = useState({})
+    const [ciphertext, setCiphertext] = useState({
+        text: "",
         key: ""
     })
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setShiftDecrypt({
-            ...shiftDecrypt,
+        setCiphertext({
+            ...ciphertext,
             [name]: value
         });
     };
 
-    const getDecryptions = (path) => {
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        // const path = 'http://127.0.0.1:5000/shift_decrypt'
+        const path = 'https://cryptography-web-application.herokuapp.com/shift_decrypt'
         axios({
             method: 'POST',
             url: path,
             data: {
-                ciphertext: shiftDecrypt.ciphertext,
-                key: shiftDecrypt.key
+                text: ciphertext.text,
+                key: ciphertext.key
             }
         })
             .then(response => {
                 console.log("SUCCESS", response)
-                setDecryptedText(response)
+                setResponse(response)
             }).catch(error => {
                 console.log(error)
             })
-    }
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        if (isNaN(parseInt(shiftDecrypt.key))) {
-            // const path = 'http://127.0.0.1:5000/shift_decrypt_no_key'
-            const path = 'https://cryptography-web-application.herokuapp.com/shift_decrypt_no_key'
-            getDecryptions(path)
-        }
-
-        else {
-            // const path = 'http://127.0.0.1:5000/shift_decrypt'
-            const path = 'https://cryptography-web-application.herokuapp.com/shift_decrypt'
-            getDecryptions(path)
-        }
     }
 
     return (
@@ -59,9 +47,9 @@ function ShiftDecrypt() {
                     <label htmlFor="">Ciphertext:
                         <input
                             type="text"
-                            name="ciphertext"
-                            id="cipher-text"
-                            value={shiftDecrypt.ciphertext}
+                            name="text"
+                            id="text"
+                            value={ciphertext.text}
                             onChange={handleChange} />
                     </label>
                 </div>
@@ -72,21 +60,21 @@ function ShiftDecrypt() {
                             pattern='[0-9]'
                             name="key"
                             id="key-num"
-                            value={shiftDecrypt.key}
+                            value={ciphertext.key}
                             onChange={handleChange} />
                     </label>
                 </div>
                 <Button name={'Decrypt'} />
             </form>
 
-            <div className='text'>{decryptedText.status === 200 &&
-                <div>
-                    <h4>Decrypted Text:</h4>
-                    <Card text={decryptedText.data.plaintext} key={shiftDecrypt.key} />
-                    {/* <p>{decryptedText.data.plaintext}</p> */}
-                </div>}
+            <div className='text'>
+                {response.status === 200 &&
+                    <div>
+                        <h4>Decrypted Text:</h4>
+                        {JSON.parse(response.data.plaintext).map((decryption) =>
+                            <Card text={decryption['text']} shiftKey={decryption['key']} key={decryption['text']} />)}
+                    </div>}
             </div>
-
         </div>
     );
 }

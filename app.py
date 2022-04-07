@@ -1,7 +1,7 @@
 from flask import Flask, send_from_directory
 from flask_restful import Api
 from flask_cors import CORS
-from api.ciphers_API import ShiftDecryptNoKey, ShiftEncrypt, ShiftDecrypt, AffineEncrypt, AffineDecrypt, VigenereDecryptNoKey, VigenereEncrypt, VigenereDecrypt
+from api.ciphers_API import ShiftEncrypt, ShiftDecrypt, AffineEncrypt, AffineDecrypt, VigenereEncrypt, VigenereDecrypt
 
 
 app = Flask(__name__, static_url_path='', static_folder='frontend/build')
@@ -17,10 +17,8 @@ api = Api(app)
 resource_map = (
     (ShiftEncrypt, '/shift_encrypt'),
     (ShiftDecrypt, '/shift_decrypt'),
-    (ShiftDecryptNoKey, '/shift_decrypt_no_key'),
     (VigenereEncrypt, '/vigenere_encrypt'),
     (VigenereDecrypt, '/vigenere_decrypt'),
-    (VigenereDecryptNoKey, '/vigenere_decrypt_no_key'),
     (AffineEncrypt, '/affine_encrypt'),
     (AffineDecrypt, '/affine_decrypt')
 
