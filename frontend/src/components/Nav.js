@@ -7,7 +7,7 @@ class Nav extends Component {
         return (
             <nav>
                 <div className='nav-links'>
-                    <Link className='link' to='/'>
+                    <Link className='link home' to='/'>
                         <h3>Cryptography</h3>
                     </Link>
                     <div className='links'>

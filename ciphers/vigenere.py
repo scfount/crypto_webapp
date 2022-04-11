@@ -55,4 +55,19 @@ class Vigenere:
         return decrypted_text.upper()
 
     def decrypt_no_key(self):
+        """_summary_
+
+        Returns:
+            _type_: _description_
+        """
+        ciphertext = self.text.translate(
+            str.maketrans("", "", string.whitespace))
+        # start with set key length? Then build to unknown?
+        # create bag of letters based on key length
+        # ex: ciphertext = abcxyz, key length = 3
+        # bag 1 = ax, bag 2 = by, bag 3 = cz
+        # run frequency analysis with shift, 25 times on
+        # each bag to get most likely key value(s)
+        # brute force all permutations using chi-squared and take
+        # the best result
         return None
