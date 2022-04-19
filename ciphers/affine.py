@@ -18,10 +18,7 @@ class Affine:
         Returns --
             String, ciphertext
         '''
-
-        plaintext = self.text.translate(
-            str.maketrans("", "", string.whitespace))
-
+        plaintext = self.text
         ciphertext = []
         for char in plaintext:
             if char.isalpha():
@@ -32,7 +29,7 @@ class Affine:
                 ciphertext.append(char)
 
         encrypted_text = "".join(ciphertext)
-        return encrypted_text.upper()
+        return encrypted_text
 
     def decrypt(self):
         '''
@@ -44,9 +41,7 @@ class Affine:
             String, ciphertext
         '''
         inverse = pow(self.alpha, -1, Constants.N)
-
-        ciphertext = self.text.translate(
-            str.maketrans("", "", string.whitespace))
+        ciphertext = self.text
 
         plaintext = []
         for char in ciphertext:
@@ -59,4 +54,4 @@ class Affine:
                 plaintext.append(char)
 
         decrypted_text = "".join(plaintext)
-        return decrypted_text.upper()
+        return decrypted_text

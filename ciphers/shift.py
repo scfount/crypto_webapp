@@ -1,6 +1,4 @@
-from heapq import heapify
-import string
-from ciphers.chi_squared import Chi_Squared
+from ciphers.chi_squared import ChiSquared
 from ciphers.decryption import Decryption
 from .constants import Constants
 
@@ -26,8 +24,7 @@ class Shift:
         Returns --
             String, ciphertext
         '''
-        plaintext = self.text.translate(
-            str.maketrans("", "", string.whitespace))
+        plaintext = self.text
 
         ciphertext = []
         for char in plaintext:
@@ -39,7 +36,7 @@ class Shift:
                 ciphertext.append(char)
 
         encrypted_text = "".join(ciphertext)
-        return encrypted_text.upper()
+        return encrypted_text
 
     def decrypt(self):
         '''
@@ -50,8 +47,7 @@ class Shift:
         Returns --
             String, plaintext
         '''
-        ciphertext = self.text.translate(
-            str.maketrans("", "", string.whitespace))
+        ciphertext = self.text
 
         plaintext = []
         for char in ciphertext:
@@ -72,8 +68,7 @@ class Shift:
         Returns:
             _type_: _description_
         """
-        ciphertext = self.text.translate(
-            str.maketrans("", "", string.whitespace))
+        ciphertext = self.text
 
         decryptions = []
         for key in range(1, Constants.N):
@@ -89,11 +84,11 @@ class Shift:
             decryption = Decryption("".join(plaintext), key)
             decryptions.append(decryption)
 
-        chi_squared = Chi_Squared(len(ciphertext))
+        chi_squared = ChiSquared()
         for decryption in decryptions:
             decryption.chi_squared = chi_squared.calculate_chi_squared(
                 decryption)
 
-        heapify(decryptions)
+        decryptions.sort()
 
         return decryptions

@@ -23,8 +23,8 @@ function AffineDecrypt() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // const path = 'http://127.0.0.1:5000/affine_decrypt'
-        const path = 'https://cryptography-web-application.herokuapp.com/affine_decrypt'
+        const path = 'http://127.0.0.1:5000/affine_decrypt'
+        // const path = 'https://cryptography-web-application.herokuapp.com/affine_decrypt'
         axios({
             method: 'POST',
             url: path,

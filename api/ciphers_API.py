@@ -58,11 +58,13 @@ class VigenereDecrypt(Resource):
         if key == "":
             decryptions = vigenere.decrypt_no_key()
         else:
-            plaintext = vigenere.decrypt()
+            decryptions = vigenere.decrypt()
+        decryptions_JSON = json.dumps(
+            [decryption.__dict__ for decryption in decryptions])
         return {
             'resultStatus': 'SUCCESS',
             'ciphertext': None,
-            'plaintext': plaintext
+            'plaintext': decryptions_JSON
         }
 
 

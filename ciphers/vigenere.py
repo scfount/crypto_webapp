@@ -1,4 +1,6 @@
-import string
+from ciphers.decryption import Decryption
+from ciphers.hack_vigenere_key import HackVigenereKey
+from ciphers.shift import Shift
 from .constants import Constants
 
 
@@ -16,8 +18,7 @@ class Vigenere:
             String, ciphertext
         '''
 
-        plaintext = self.text.translate(
-            str.maketrans("", "", string.whitespace))
+        plaintext = self.text
 
         ciphertext = []
 
@@ -30,7 +31,7 @@ class Vigenere:
                 ciphertext.append(plaintext[i])
 
         encrypted_text = "".join(ciphertext)
-        return encrypted_text.upper()
+        return encrypted_text
 
     def decrypt(self):
         '''
@@ -39,8 +40,7 @@ class Vigenere:
         Returns --
             String, plaintext
         '''
-        ciphertext = self.text.translate(
-            str.maketrans("", "", string.whitespace))
+        ciphertext = self.text
 
         plaintext = []
         for i in range(len(ciphertext)):
@@ -51,8 +51,8 @@ class Vigenere:
             else:
                 plaintext.append(ciphertext[i])
 
-        decrypted_text = "".join(plaintext)
-        return decrypted_text.upper()
+        decryption = Decryption("".join(plaintext), self.key)
+        return [decryption]
 
     def decrypt_no_key(self):
         """_summary_
@@ -60,14 +60,23 @@ class Vigenere:
         Returns:
             _type_: _description_
         """
-        ciphertext = self.text.translate(
-            str.maketrans("", "", string.whitespace))
-        # start with set key length? Then build to unknown?
-        # create bag of letters based on key length
-        # ex: ciphertext = abcxyz, key length = 3
-        # bag 1 = ax, bag 2 = by, bag 3 = cz
-        # run frequency analysis with shift, 25 times on
-        # each bag to get most likely key value(s)
-        # brute force all permutations using chi-squared and take
-        # the best result
-        return None
+        key_hacker = HackVigenereKey()
+
+        possible_key_lengths = key_hacker.hack_key(self.text)
+
+        decryptions = []
+        # decrypt with best key length
+        if len(possible_key_lengths) == 1:
+            self.key = key_hacker.guess_key(self.text, possible_key_lengths[0])
+            decryption = self.decrypt()
+            decryptions.append(decryption[0])
+
+            return decryptions
+        else:
+            # decrypt with most likely key lengths
+            for possible_len in possible_key_lengths:
+                self.key = key_hacker.guess_key(self.text, possible_len)
+                decryption = self.decrypt()
+                decryptions.append(decryption[0])
+
+            return decryptions

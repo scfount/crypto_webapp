@@ -5,14 +5,15 @@ def test_encrypt():
     plaintext = 'abc'
     key = '1'
     shift = Shift(plaintext, key)
-    assert(shift.encrypt() == 'BCD')
+    assert(shift.encrypt() == 'bcd')
 
 
 def test_decrypt():
     ciphertext = 'bcd'
     key = '1'
     shift = Shift(ciphertext, key)
-    assert(shift.decrypt() == 'ABC')
+    decryptions = shift.decrypt()
+    assert(decryptions[0].text == 'abc')
 
 
 def test_decrypt_no_key():
