@@ -21,8 +21,8 @@ function VigenereDecrypt() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const path = 'http://127.0.0.1:5000/vigenere_decrypt'
-        // const path = 'https://cryptography-web-application.herokuapp.com/vigenere_decrypt'
+        // const path = 'http://127.0.0.1:5000/vigenere_decrypt'
+        const path = 'https://cryptography-web-application.herokuapp.com/vigenere_decrypt'
         axios({
             method: 'POST',
             url: path,

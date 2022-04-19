@@ -23,8 +23,8 @@ function AffineEncrypt() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const path = 'http://127.0.0.1:5000/affine_encrypt'
-        // const path = 'https://cryptography-web-application.herokuapp.com/affine_encrypt'
+        // const path = 'http://127.0.0.1:5000/affine_encrypt'
+        const path = 'https://cryptography-web-application.herokuapp.com/affine_encrypt'
         axios({
             method: 'POST',
             url: path,
