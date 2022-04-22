@@ -1,7 +1,7 @@
 from ciphers.decryption import Decryption
 from ciphers.hack_vigenere_key import HackVigenereKey
-from ciphers.shift import Shift
 from .constants import Constants
+import cld2
 
 
 class Vigenere:
@@ -65,18 +65,21 @@ class Vigenere:
         possible_key_lengths = key_hacker.hack_key(self.text)
 
         decryptions = []
-        # decrypt with best key length
-        if len(possible_key_lengths) == 1:
-            self.key = key_hacker.guess_key(self.text, possible_key_lengths[0])
+        # decrypt with most likely key lengths
+        for possible_len in possible_key_lengths:
+            self.key = key_hacker.guess_key(self.text, possible_len)
             decryption = self.decrypt()
             decryptions.append(decryption[0])
 
-            return decryptions
-        else:
-            # decrypt with most likely key lengths
-            for possible_len in possible_key_lengths:
-                self.key = key_hacker.guess_key(self.text, possible_len)
-                decryption = self.decrypt()
-                decryptions.append(decryption[0])
+        reliable_decryptions = []
+        for d in decryptions:
+            isReliable, textBytesFound, details = cld2.detect(d.text)
 
-            return decryptions
+            if isReliable == True and not self.repeated_key(d.key):
+                reliable_decryptions.append(d)
+
+        return reliable_decryptions
+
+    def repeated_key(self, key):
+        i = (key+key).find(key, 1, -1)
+        return False if i == -1 else True

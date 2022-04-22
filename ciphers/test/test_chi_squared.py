@@ -9,14 +9,4 @@ def test_calculate_chi_squared():
     chi = ChiSquared()
     decryption.chi_squared = chi.calculate_chi_squared(decryption)
     print(decryption.chi_squared)
-    assert(decryption.chi_squared == 3)
-
-
-def test_calculate_chi_squared2():
-    text = "AATHEEACEISNIOISITHOODRTHSEREG"
-    key = "x"
-    decryption = Decryption(text, key)
-    chi = ChiSquared()
-    decryption.chi_squared = chi.calculate_chi_squared(decryption)
-    print(decryption.chi_squared)
-    assert(decryption.chi_squared == 3)
+    assert(decryption.chi_squared == 30.090000000000003)

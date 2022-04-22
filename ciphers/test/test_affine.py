@@ -6,28 +6,28 @@ def test_encrypt():
     alpha = 5
     beta = 9
     affine = Affine(plaintext, alpha, beta)
-    encryption = "vdtqdardvvjnd"
-    assert(affine.encrypt() == encryption.upper())
+    encryption = "vdtqda rdvvjnd"
+    assert(affine.encrypt() == encryption)
 
     plaintext = "test"
     alpha = 37
     beta = 400
     affine = Affine(plaintext, alpha, beta)
     encryption = 'lcal'
-    assert(affine.encrypt() == encryption.upper())
+    assert(affine.encrypt() == encryption)
 
 
 def test_decrypt():
-    ciphertext = "vdtqdardvvjnd"
+    ciphertext = "vdtqda rdvvjnd"
     alpha = 5
     beta = 9
     affine = Affine(ciphertext, alpha, beta)
-    decryption = 'SECRETMESSAGE'
+    decryption = 'secret message'
     assert(affine.decrypt() == decryption)
 
     ciphertext = "lcal"
     alpha = 37
     beta = 400
     affine = Affine(ciphertext, alpha, beta)
-    decryption = 'TEST'
+    decryption = 'test'
     assert(affine.decrypt() == decryption)

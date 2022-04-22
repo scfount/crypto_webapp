@@ -1,5 +1,4 @@
 import collections
-from heapq import nlargest
 from itertools import combinations
 import re
 from ciphers.constants import Constants
@@ -31,7 +30,7 @@ class HackVigenereKey:
         distance_list = self.calc_distance_between_substrings(
             ciphertext, kasiski_repeated)
 
-        # count all factors for distances (excluding 1) to guess most likely key length
+        # count all factors for distances (excluding 1) to guess most likely key lengths
         possible_key_lengths = self.estimate_key_length(distance_list)
 
         return possible_key_lengths
@@ -54,11 +53,28 @@ class HackVigenereKey:
 
         factor_count = collections.Counter(factor_list)
 
-        max_keys = nlargest(3, factor_count, key=factor_count.get)
+        key_length_list = self.isolate_top_key_lengths(factor_count)
 
-        max_keys.reverse()
+        return key_length_list
 
-        return max_keys
+    def isolate_top_key_lengths(self, factor_count):
+        """_summary_
+
+        Args:
+            factor_count (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
+        THRESHOLD = .05
+        total_factor_count = sum(factor_count.values())
+        key_length_list = []
+
+        for key, value in factor_count.items():
+            if (value/total_factor_count) >= THRESHOLD:
+                key_length_list.append(key)
+
+        return key_length_list
 
     def calc_distance_between_substrings(self, ciphertext, kasiski_repeated):
         """_summary_
@@ -139,7 +155,7 @@ class HackVigenereKey:
         """
         key_list = []
         for i in range(length_attempt):
-            subgroup = self.getSubgroup(ciphertext, i, length_attempt)
+            subgroup = self.get_sub_group(ciphertext, i, length_attempt)
             shift = Shift(subgroup, "")
             decryptions = shift.decrypt_no_key()
 
@@ -149,7 +165,7 @@ class HackVigenereKey:
 
         return "".join(key_list)
 
-    def getSubgroup(self, ciphertext, start, skip):
+    def get_sub_group(self, ciphertext, start, skip):
         """_summary_
 
         Args:
