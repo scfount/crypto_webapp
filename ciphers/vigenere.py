@@ -1,7 +1,7 @@
 from ciphers.decryption import Decryption
 from ciphers.hack_vigenere_key import HackVigenereKey
 from .constants import Constants
-import cld2
+import pycld2 as cld2
 
 
 class Vigenere:
