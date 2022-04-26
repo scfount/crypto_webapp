@@ -101,11 +101,14 @@ class Vigenere:
         reliable_decryptions.sort(
             key=lambda d: d.decryption_score,  reverse=True)
 
-        while reliable_decryptions[0].decryption_score < SCORE_THRESHOLD:
-            decryptions = self.get_decryptions(key_hacker, [1, 2, 3])
+        if not reliable_decryptions or reliable_decryptions[0].decryption_score < SCORE_THRESHOLD:
+            decryptions.extend(self.get_decryptions(key_hacker, [1, 2, 3]))
 
             reliable_decryptions = self.get_reliable_decryptions(
                 decryptions)
+
+            reliable_decryptions.sort(
+                key=lambda d: d.decryption_score,  reverse=True)
 
         return reliable_decryptions
 
