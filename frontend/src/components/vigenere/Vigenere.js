@@ -10,6 +10,7 @@ function Vigenere() {
         <div className="Container">
             <h1>Vigenere Cipher</h1>
             <Description content={description} />
+            <Description content={decryption_info} />
             <div className='Ciphers'>
                 <VigenereEncrypt />
                 <VigenereDecrypt />
@@ -23,5 +24,9 @@ function Vigenere() {
 const description = "Vigenere Cipher is a polyalphabetic substitution cipher\
  that uses a repeated word as its key over the course of the text, referencing\
   a Vigenere table to encrypt/decrypt the text."
+
+const decryption_info = "Auto-Decryption: Leave key length blank if not known or key is known."
+
+
 
 export default Vigenere;

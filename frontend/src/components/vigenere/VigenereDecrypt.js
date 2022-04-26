@@ -8,7 +8,8 @@ function VigenereDecrypt() {
     const [response, setResponse] = useState({})
     const [ciphertext, setCiphertext] = useState({
         text: "",
-        key: ""
+        key: "",
+        key_length: null
     })
 
     const handleChange = (event) => {
@@ -28,7 +29,8 @@ function VigenereDecrypt() {
             url: path,
             data: {
                 text: ciphertext.text,
-                key: ciphertext.key
+                key: ciphertext.key,
+                key_length: ciphertext.key_length
             }
         })
             .then(response => {
@@ -60,6 +62,17 @@ function VigenereDecrypt() {
                             name="key"
                             id="key-value"
                             value={ciphertext.key}
+                            onChange={handleChange} />
+                    </label>
+                </div>
+                <div>
+                    <label htmlFor="">Key Length:
+                        <input
+                            type="number"
+                            pattern='[0-9]'
+                            name="key_length"
+                            id="key-num"
+                            value={ciphertext.key_length}
                             onChange={handleChange} />
                     </label>
                 </div>
