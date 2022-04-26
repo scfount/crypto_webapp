@@ -71,7 +71,7 @@ class Shift:
         ciphertext = self.text
 
         decryptions = []
-        for key in range(1, Constants.N):
+        for key in range(Constants.N):
             plaintext = []
             for char in ciphertext.lower():
                 if char.isalpha():

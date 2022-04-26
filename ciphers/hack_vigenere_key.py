@@ -1,5 +1,6 @@
 import collections
 from itertools import combinations
+import itertools
 import re
 from ciphers.constants import Constants
 from ciphers.shift import Shift
@@ -18,13 +19,14 @@ class HackVigenereKey:
         """
         # Run Kasiski examination to find key length
         # find all repeated substrings of length 3
-        kasiski_list = self.get_all_substrings(ciphertext, 3)
-
-        # add all to dict to count frequency
-        kasiski_dict = self.count_freq_substrings(kasiski_list)
-
-        # iterate through dict and pull out substrings with a freq. greater than 1
-        kasiski_repeated = self.get_repeat_substrings(kasiski_dict)
+        for sub_len in range(3, 0, -1):
+            kasiski_list = self.get_all_substrings(ciphertext, sub_len)
+            # add all to dict to count frequency
+            kasiski_dict = self.count_freq_substrings(kasiski_list)
+            # iterate through dict and pull out substrings with a freq. greater than 1
+            kasiski_repeated = self.get_repeat_substrings(kasiski_dict)
+            if kasiski_repeated:
+                break
 
         # get number of letters between repeats
         distance_list = self.calc_distance_between_substrings(
@@ -47,7 +49,7 @@ class HackVigenereKey:
         factor_list = []
 
         for distance in distance_list:
-            for i in range(2, distance):
+            for i in range(4, distance):
                 if distance % i == 0:
                     factor_list.append(i)
 
@@ -66,13 +68,12 @@ class HackVigenereKey:
         Returns:
             _type_: _description_
         """
-        THRESHOLD = .05
-        total_factor_count = sum(factor_count.values())
+        #  take values with top two counts
         key_length_list = []
+        most_common = collections.Counter(factor_count).most_common(2)
 
-        for key, value in factor_count.items():
-            if (value/total_factor_count) >= THRESHOLD:
-                key_length_list.append(key)
+        for pair in most_common:
+            key_length_list.append(pair[0])
 
         return key_length_list
 
@@ -139,31 +140,39 @@ class HackVigenereKey:
             _type_: _description_
         """
         kasiski_repeated = []
-        for sub, freq in kasiski_dict.items():
+        for substr, freq in kasiski_dict.items():
             if freq > 1:
-                kasiski_repeated.append(sub)
+                kasiski_repeated.append(substr)
         return kasiski_repeated
 
-    def guess_key(self, ciphertext, length_attempt):
+    def guess_keys(self, ciphertext, length_attempt):
         """_summary_
 
         Args:
             ciphertext (_type_): _description_
+            length_attempt (_type_): _description_
 
         Returns:
             _type_: _description_
         """
+        # key list = list of all possible string keys at this length
         key_list = []
         for i in range(length_attempt):
             subgroup = self.get_sub_group(ciphertext, i, length_attempt)
             shift = Shift(subgroup, "")
             decryptions = shift.decrypt_no_key()
 
-            key = decryptions[0].key
-            letter = Constants.ALPHABET_NUMBERS[key]
-            key_list.append(letter)
+            #  list of numbers indicating best shifts to try for this position
+            best_shifts = self.get_best_shifts(decryptions)
 
-        return "".join(key_list)
+            # transform list of shifts to list of letters
+            best_letters = self.get_best_letters(best_shifts)
+
+            key_list.append(best_letters)
+
+        possible_keys = list(itertools.product(*key_list))
+
+        return possible_keys
 
     def get_sub_group(self, ciphertext, start, skip):
         """_summary_
@@ -182,3 +191,22 @@ class HackVigenereKey:
             start += skip
         subgroup = "".join(subgroup_list)
         return subgroup
+
+    def get_best_shifts(self, decryptions):
+        # iterate through list of deccryptions
+        # take n best chi-squared keys
+        THRESHOLD = 25
+        best_shifts = []
+        for decryption in decryptions:
+            if decryption.chi_squared < THRESHOLD:
+                best_shifts.append(decryption.key)
+        if not best_shifts:
+            for i in range(2):
+                best_shifts.append(decryptions[i].key)
+        return best_shifts
+
+    def get_best_letters(self, shifts):
+        best_letters = []
+        for shift in shifts:
+            best_letters.append(Constants.ALPHABET_NUMBERS[shift])
+        return best_letters

@@ -41,7 +41,8 @@ class VigenereEncrypt(Resource):
     def post(self):
         plaintext = request.json['text']
         key = request.json['key']
-        vigenere = Vigenere(plaintext, key)
+        key_length = len(key)
+        vigenere = Vigenere(plaintext, key, key_length)
         ciphertext = vigenere.encrypt()
         return {
             'resultStatus': 'SUCCESS',
@@ -54,9 +55,12 @@ class VigenereDecrypt(Resource):
     def post(self):
         ciphertext = request.json['text']
         key = request.json['key']
-        vigenere = Vigenere(ciphertext, key)
-        if key == "":
-            decryptions = vigenere.decrypt_no_key()
+        key_length = request.json['key_length']
+        vigenere = Vigenere(ciphertext, key, key_length)
+        if key == "" and (key_length == None or key_length == ""):
+            decryptions = vigenere.decrypt_no_key_no_length()
+        elif key == "" and (key_length != None or key_length != ""):
+            decryptions = vigenere.decrypt_no_key_given_length()
         else:
             decryptions = vigenere.decrypt()
         decryptions_JSON = json.dumps(
@@ -69,7 +73,6 @@ class VigenereDecrypt(Resource):
 
 
 class AffineEncrypt(Resource):
-
     def post(self):
         plaintext = request.json['text']
         alpha = int(request.json['alpha'])
@@ -84,7 +87,6 @@ class AffineEncrypt(Resource):
 
 
 class AffineDecrypt(Resource):
-
     def post(self):
         ciphertext = request.json['text']
         alpha = int(request.json['alpha'])

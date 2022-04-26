@@ -6,6 +6,9 @@ class Decryption:
         self.text = text
         self.key = key
         self.chi_squared = None
+        self.isReliable = None
+        self.details = None
+        self.decryption_score = None
 
     def __str__(self) -> str:
         return f"text: {self.text} key: {self.key} Chi: {self.chi_squared}"
