@@ -1,5 +1,6 @@
 from flask import request
 from flask_restful import Resource
+from ciphers.constants import Constants
 from ciphers.vigenere import Vigenere
 from ciphers.shift import Shift
 from ciphers.affine import Affine
@@ -57,9 +58,10 @@ class VigenereDecrypt(Resource):
         key = request.json['key']
         key_length = request.json['key_length']
         vigenere = Vigenere(ciphertext, key, key_length)
-        if key == "" and (key_length == None or key_length == ""):
+        action = self.getAction(key, key_length)
+        if action == Constants.NO_KEY_NO_LENGTH:
             decryptions = vigenere.decrypt_no_key_no_length()
-        elif key == "" and (key_length != None or key_length != ""):
+        elif action == Constants.NO_KEY_GIVEN_LENGTH:
             decryptions = vigenere.decrypt_no_key_given_length()
         else:
             decryptions = vigenere.decrypt()
@@ -70,6 +72,14 @@ class VigenereDecrypt(Resource):
             'ciphertext': None,
             'plaintext': decryptions_JSON
         }
+
+    def getAction(self, key, key_length):
+        if key == "" and (key_length == None or key_length == ""):
+            return Constants.NO_KEY_NO_LENGTH
+        elif key == "" and (key_length != None or key_length != ""):
+            return Constants.NO_KEY_GIVEN_LENGTH
+        else:
+            return Constants.GIVEN_KEY
 
 
 class AffineEncrypt(Resource):

@@ -32,3 +32,7 @@ class Constants:
         'y': 2.0,
         'z': .1
     }
+
+    NO_KEY_NO_LENGTH = "no key no length"
+    NO_KEY_GIVEN_LENGTH = "no key given length"
+    GIVEN_KEY = "given key"

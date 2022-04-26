@@ -7,21 +7,32 @@ from ciphers.shift import Shift
 
 
 class HackVigenereKey:
+    """Represents an object to break the Vigenere cipher
+    """
 
     def hack_key(self, ciphertext):
-        """_summary_
+        """Generates a list of possible Vigenere key lengths based on the 
+        provided ciphertext using the kasiski analysis:
+        - get repeated substrings of length 3
+        - find distance between any repeated, length-3 substrings
+        - count all factors of found distances, using higher occurring factors
+        as likely key lengths
+        - I modified to only look at factors >= 4 on first pass as 2 and 3
+        tend to dominate the count
 
         Args:
-            ciphertext (_type_): _description_
+            ciphertext (String): The ciphertext used to generate teh possible
+            key lengths
 
         Returns:
-            _type_: _description_
+            list: A list of ints representing possible key lengths to decrypt
+            the ciphertext
         """
         # Run Kasiski examination to find key length
-        # find all repeated substrings of length 3
+        # find all repeated substrings of length 3, decrease if needed
         for sub_len in range(3, 0, -1):
             kasiski_list = self.get_all_substrings(ciphertext, sub_len)
-            # add all to dict to count frequency
+            # add all to dict to count frequency of each substring
             kasiski_dict = self.count_freq_substrings(kasiski_list)
             # iterate through dict and pull out substrings with a freq. greater than 1
             kasiski_repeated = self.get_repeat_substrings(kasiski_dict)
@@ -37,14 +48,93 @@ class HackVigenereKey:
 
         return possible_key_lengths
 
-    def estimate_key_length(self, distance_list):
-        """_summary_
+    def get_all_substrings(self, ciphertext, length):
+        """Generates a list of all the substrings in the ciphertext of the 
+        specified length
 
         Args:
-            distance_list (_type_): _description_
+            ciphertext (String): The string to generate substrings from
+            length (int): The size of the desired substrings
 
         Returns:
-            _type_: _description_
+            list: A list of all the specified length substrings
+        """
+        kasiski_list = [ciphertext[x:y] for x, y in combinations(
+            range(len(ciphertext) + 1), r=2) if len(ciphertext[x:y]) == length]
+        return kasiski_list
+
+    def count_freq_substrings(self, kasiski_list):
+        """Count the number of occurrences for each substring in provided list
+
+        Args:
+            kasiski_list (list): A list of n-length substrings
+
+        Returns:
+            dictionary: A dictionary where the key is a substring and the value
+            is its occurrence frequency
+        """
+        kasiski_dict = {}
+        for substring in kasiski_list:
+            if substring in kasiski_dict:
+                kasiski_dict[substring] += 1
+            else:
+                kasiski_dict[substring] = 1
+        return kasiski_dict
+
+    def get_repeat_substrings(self, kasiski_dict):
+        """Finds all the substrings that occur more than one time in the ciphertext
+
+        Args:
+            kasiski_dict (dictionary): A dictionary where the key is a substring and the value
+            is its occurrence frequency
+
+        Returns:
+            list: A list of only the substrings that occur more than once
+        """
+        kasiski_repeated = []
+        for substr, freq in kasiski_dict.items():
+            if freq > 1:
+                kasiski_repeated.append(substr)
+        return kasiski_repeated
+
+    def calc_distance_between_substrings(self, ciphertext, kasiski_repeated):
+        """Finds the distance between repeated substrings, for all occurrences. 
+
+        Finds the start index for each repeated substing, then finds the difference 
+        between repeated substring start indexes, for all substrings. 
+
+        Args:
+            ciphertext (String): The encrypted text
+            kasiski_repeated (list): A list of all the repeated substrings
+
+        Returns:
+            list: A list representing all the distances between each repeated 
+            substring
+        """
+        k_dict = {}
+        for substring in kasiski_repeated:
+            k_dict[substring] = [match.start()
+                                 for match in re.finditer(substring, ciphertext)]
+        distance_list = []
+        for distances in k_dict.values():
+            i = 0
+            while i < len(distances)-1:
+                distance_list.append(distances[i+1] - distances[i])
+                i += 1
+        return distance_list
+
+    def estimate_key_length(self, distance_list):
+        """Finds an estimated key length by gererating a list of factors from
+        the list of distances between repeated substrings. Looks for the 
+        highest occuring factors. Ignores factors 1, 2, and 3 due to tendency
+        to always occur frequently.
+
+        Args:
+            distance_list (list): a list of ints, each representing the
+            distance between a repeated substing
+
+        Returns:
+            list: A list of the most likely key lengths
         """
         factor_list = []
 
@@ -60,15 +150,16 @@ class HackVigenereKey:
         return key_length_list
 
     def isolate_top_key_lengths(self, factor_count):
-        """_summary_
+        """Finds the top two most likely key lengths >= 4 based on how
+        frequently the factors occur
 
         Args:
-            factor_count (_type_): _description_
+            factor_count (list): A list of all the factors generated from 
+            the distance list
 
         Returns:
-            _type_: _description_
+            list: A list of the top two most likely key lengths >= 4
         """
-        #  take values with top two counts
         key_length_list = []
         most_common = collections.Counter(factor_count).most_common(2)
 
@@ -77,85 +168,16 @@ class HackVigenereKey:
 
         return key_length_list
 
-    def calc_distance_between_substrings(self, ciphertext, kasiski_repeated):
-        """_summary_
-
-        Args:
-            ciphertext (_type_): _description_
-            kasiski_repeated (_type_): _description_
-
-        Returns:
-            _type_: _description_
-        """
-        k_dict = {}
-        for substring in kasiski_repeated:
-            k_dict[substring] = [match.start()
-                                 for match in re.finditer(substring, ciphertext)]
-        distance_list = []
-        for distances in k_dict.values():
-            i = 0
-            while i < len(distances)-1:
-                distance_list.append(distances[i+1] - distances[i])
-                i += 1
-        return distance_list
-
-    def get_all_substrings(self, ciphertext, length):
-        """_summary_
-
-        Args:
-            ciphertext (_type_): _description_
-            length (_type_): _description_
-
-        Returns:
-            _type_: _description_
-        """
-        kasiski_list = [ciphertext[x:y] for x, y in combinations(
-            range(len(ciphertext) + 1), r=2) if len(ciphertext[x:y]) == length]
-        return kasiski_list
-
-    def count_freq_substrings(self, kasiski_list):
-        """_summary_
-
-        Args:
-            kasiski_list (_type_): _description_
-
-        Returns:
-            _type_: _description_
-        """
-        kasiski_dict = {}
-        for substring in kasiski_list:
-            if substring in kasiski_dict:
-                kasiski_dict[substring] += 1
-            else:
-                kasiski_dict[substring] = 1
-        return kasiski_dict
-
-    def get_repeat_substrings(self, kasiski_dict):
-        """_summary_
-
-        Args:
-            kasiski_dict (_type_): _description_
-
-        Returns:
-            _type_: _description_
-        """
-        kasiski_repeated = []
-        for substr, freq in kasiski_dict.items():
-            if freq > 1:
-                kasiski_repeated.append(substr)
-        return kasiski_repeated
-
     def guess_keys(self, ciphertext, length_attempt):
-        """_summary_
+        """Generates a list of possible Vigenere keys based on key length
 
         Args:
-            ciphertext (_type_): _description_
-            length_attempt (_type_): _description_
+            ciphertext (String): The encrypted text
+            length_attempt (int): The length of the key for this attempt
 
         Returns:
-            _type_: _description_
+            list: A list of Strings containing most likely keys of this length
         """
-        # key list = list of all possible string keys at this length
         key_list = []
         for i in range(length_attempt):
             subgroup = self.get_sub_group(ciphertext, i, length_attempt)
@@ -175,15 +197,16 @@ class HackVigenereKey:
         return possible_keys
 
     def get_sub_group(self, ciphertext, start, skip):
-        """_summary_
+        """Generates a subgroup of the ciphertext by taking every n'th letter,
+        starting at a specified index between 0 and n, where n is the key length
 
         Args:
-            ciphertext (_type_): _description_
-            start (_type_): _description_
-            skip (_type_): _description_
+            ciphertext (String): The encrypted text
+            start (int): The index to start at within the ciphertext
+            skip (int): The key length, aka the amount of indices to skip
 
         Returns:
-            _type_: _description_
+            String: A subgroup of the ciphertext
         """
         subgroup_list = []
         while start < len(ciphertext):
@@ -193,9 +216,22 @@ class HackVigenereKey:
         return subgroup
 
     def get_best_shifts(self, decryptions):
-        # iterate through list of deccryptions
-        # take n best chi-squared keys
+        """Iterate through list of shift_decrypt_no_key Decryptions, grabbing
+        the shift values that generate a low chi squared value based on their
+        frequency analysis. Low = below the threshold of 25
+
+        If none meet that criteria, return best two shift values
+
+        Args:
+            decryptions (list): A list of shift_decrypt_no_key Decryptions for
+            this position in the key
+
+        Returns:
+            list: A list of ints representing best shift values for this position
+            in the key
+        """
         THRESHOLD = 25
+
         best_shifts = []
         for decryption in decryptions:
             if decryption.chi_squared < THRESHOLD:
@@ -203,9 +239,24 @@ class HackVigenereKey:
         if not best_shifts:
             for i in range(2):
                 best_shifts.append(decryptions[i].key)
+
         return best_shifts
 
     def get_best_letters(self, shifts):
+        """Translates the retrieved shift values from a number to their
+        respective letter in the alphabet:
+        a = 0
+        ...
+        z = 25
+
+        Args:
+            shifts (list): A list of ints representing shift values for this
+            position in the key
+
+        Returns:
+            list: A list of Chars representing the letter value for this
+            position in the key
+        """
         best_letters = []
         for shift in shifts:
             best_letters.append(Constants.ALPHABET_NUMBERS[shift])

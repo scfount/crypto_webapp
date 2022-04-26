@@ -1,8 +1,16 @@
 
 
 class Decryption:
+    """Represents a Decryption object
+    """
 
     def __init__(self, text, key) -> None:
+        """Initializes a new Decryption
+
+        Args:
+            text (String): The decrypted text
+            key (String || int): The key used to decrypt
+        """
         self.text = text
         self.key = key
         self.chi_squared = None

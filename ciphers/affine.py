@@ -1,23 +1,29 @@
-import string
 from .constants import Constants
 
 
 class Affine:
+    """Represents an Affine object for encryption/decryption
+    """
 
     def __init__(self, text, alpha, beta) -> None:
+        """Initializes an Affine object
+
+        Args:
+            text (String): The plaintext or ciphertext
+            alpha (int): The alpha value
+            beta (int): the beta value
+        """
         self.text = text.lower()
         self.alpha = int(alpha)
         self.beta = int(beta)
 
     def encrypt(self):
-        '''
-        Function --
-            Affine Cipher encryption of plaintext
+        """Affine Cipher encryption of plaintext
             y = ax + b % 26
-        Parameters --
-        Returns --
-            String, ciphertext
-        '''
+
+        Returns:
+            String: The encrypted text
+        """
         plaintext = self.text
         ciphertext = []
         for char in plaintext:
@@ -32,14 +38,12 @@ class Affine:
         return encrypted_text
 
     def decrypt(self):
-        '''
-         Function --
-            Affine Cipher decryption of ciphertext
+        """Affine Cipher decryption of ciphertext
             x = a^-1 * (y - b) % 26
-        Parameters --
-        Returns --
-            String, ciphertext
-        '''
+
+        Returns:
+            String: The decrypted text
+        """
         inverse = pow(self.alpha, -1, Constants.N)
         ciphertext = self.text
 

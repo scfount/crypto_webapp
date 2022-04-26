@@ -5,26 +5,39 @@ import pycld2 as cld2
 
 
 class Vigenere:
+    """Represents a Vigenere objects for encryption or decrption
+    """
 
     def __init__(self, text, key, key_length) -> None:
+        """initialize a Vigenere object
+
+        Args:
+            text (String): the plaintext or ciphertext
+            key (String): the key to encrypt/decrypt if provided
+            key_length (int): the length of the key, used for decryption of unknown key
+        """
         self.text = text.lower()
         self.key = key.lower()
         self.key_length = self.check_key_len(key_length)
 
     def check_key_len(self, key_len):
-        if key_len == None or key_len == "":
-            return 0
-        else:
-            return int(key_len)
+        """Check to see if key length was provided and convert to correct type
+
+        Args:
+            key_len (String || None || int): The length of the key
+
+        Returns:
+            int: The length of the key
+        """
+        return 0 if key_len == None or key_len == "" else int(key_len)
 
     def encrypt(self):
-        '''
-        Function --
-        Parameters --
-        Returns --
-            String, ciphertext
-        '''
+        """Encrypts a string of plaintext to ciphertext using the provided key
+        following the Vigenere encryption method
 
+        Returns:
+            String: The plaintext encrypted
+        """
         plaintext = self.text
 
         ciphertext = []
@@ -41,12 +54,11 @@ class Vigenere:
         return encrypted_text
 
     def decrypt(self):
-        '''
-        Function --
-        Parameters --
-        Returns --
-            String, plaintext
-        '''
+        """Decrypts a string of ciphertext to plaintext using a provided key
+
+        Returns:
+            String: The ciphertext decrypted
+        """
         ciphertext = self.text
 
         plaintext = []
@@ -62,10 +74,11 @@ class Vigenere:
         return [decryption]
 
     def decrypt_no_key_given_length(self):
-        """_summary_
+        """Decrypts a string of ciphertext to plaintext finding a key of 
+        the user specified key length
 
         Returns:
-            _type_: _description_
+            list: A list of the possible decryptions
         """
         key_hacker = HackVigenereKey()
 
@@ -74,19 +87,17 @@ class Vigenere:
         reliable_decryptions = self.get_reliable_decryptions(
             decryptions)
 
-        if reliable_decryptions:
-            reliable_decryptions.sort(
-                key=lambda d: d.decryption_score,  reverse=True)
-            return reliable_decryptions
-        else:
-            decryptions.sort(key=lambda d: d.decryption_score,  reverse=True)
-            return decryptions
+        reliable_decryptions.sort(
+            key=lambda d: d.decryption_score,  reverse=True)
+
+        return reliable_decryptions if reliable_decryptions else decryptions
 
     def decrypt_no_key_no_length(self):
-        """_summary_
+        """Decrypts a string of ciphertext to plaintext with unknown key and 
+        key length values
 
         Returns:
-            _type_: _description_
+            list: A list of the possible decryptions
         """
         SCORE_THRESHOLD = 1000
         key_hacker = HackVigenereKey()
@@ -98,26 +109,27 @@ class Vigenere:
         reliable_decryptions = self.get_reliable_decryptions(
             decryptions)
 
-        reliable_decryptions.sort(
-            key=lambda d: d.decryption_score,  reverse=True)
-
         if not reliable_decryptions or reliable_decryptions[0].decryption_score < SCORE_THRESHOLD:
             decryptions.extend(self.get_decryptions(key_hacker, [1, 2, 3]))
 
             reliable_decryptions = self.get_reliable_decryptions(
                 decryptions)
 
-            reliable_decryptions.sort(
-                key=lambda d: d.decryption_score,  reverse=True)
+        reliable_decryptions.sort(
+            key=lambda d: d.decryption_score, reverse=True)
 
-        return reliable_decryptions
+        return reliable_decryptions if reliable_decryptions else decryptions.sort(
+            key=lambda d: d.decryption_score, reverse=True)
 
     def get_decryptions(self, key_hacker, possible_key_lengths):
-        """_summary_
+        """Generate a list of possible decryptions based on a specified key length
 
         Args:
-            key_hacker (_type_): _description_
-            possible_key_lengths (_type_): _description_
+            key_hacker (HackVigenereKey): A Vigenere key hacking object
+            possible_key_lengths (list): A list of ints representing possible key lengths
+
+        Returns:
+            list: A list of the possible decryptions using the provided key lengths
         """
         decryptions = []
 
@@ -131,34 +143,35 @@ class Vigenere:
         return decryptions
 
     def get_reliable_decryptions(self, decryptions):
-        """_summary_
+        """Generates a list of only reliable decryptions using a python language
+        detection library
 
         Args:
-            decryptions (_type_): _description_
+            decryptions (list): A list of all possible decryptions
 
         Returns:
-            _type_: _description_
+            list: A list of only the reliable decryptions based on the detection library
         """
         reliable_decryptions = []
 
-        for d in decryptions:
-            isReliable, textBytesFound, details = cld2.detect(d.text)
-            d.isReliable = isReliable
-            d.details = details
-            d.decryption_score = details[0][-1]
+        for decryption in decryptions:
+            isReliable, textBytesFound, details = cld2.detect(decryption.text)
+            decryption.isReliable = isReliable
+            decryption.details = details
+            decryption.decryption_score = details[0][-1]
 
-            if isReliable == True and not self.repeated_key(d.key):
-                reliable_decryptions.append(d)
+            if isReliable == True and not self.repeated_key(decryption.key):
+                reliable_decryptions.append(decryption)
         return reliable_decryptions
 
     def repeated_key(self, key):
-        """_summary_
+        """Checks to see if the key is repeating itself
 
         Args:
-            key (_type_): _description_
+            key (String): The decryption key
 
         Returns:
-            _type_: _description_
+            bool: True if repeated, otherwise False
         """
         i = (key+key).find(key, 1, -1)
         return False if i == -1 else True
