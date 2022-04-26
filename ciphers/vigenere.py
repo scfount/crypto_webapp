@@ -118,8 +118,12 @@ class Vigenere:
         reliable_decryptions.sort(
             key=lambda d: d.decryption_score, reverse=True)
 
-        return reliable_decryptions if reliable_decryptions else decryptions.sort(
-            key=lambda d: d.decryption_score, reverse=True)
+        if reliable_decryptions:
+            return reliable_decryptions
+        else:
+            decryptions.sort(
+                key=lambda d: d.decryption_score, reverse=True)
+            return decryptions
 
     def get_decryptions(self, key_hacker, possible_key_lengths):
         """Generate a list of possible decryptions based on a specified key length
