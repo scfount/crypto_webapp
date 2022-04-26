@@ -5,7 +5,8 @@ import Shift from './shift/Shift';
 import Vigenere from './vigenere/Vigenere';
 import Affine from './affine/Affine';
 import Description from './Description';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom'
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import crypto_img from './crypto_img.jpeg';
 
 class HomePage extends Component {
 
@@ -25,12 +26,15 @@ class HomePage extends Component {
 }
 
 const Home = () => (
-    <div className='Container'>
-        <h1>Cryptography Web App</h1>
+    <div id='homepage' className='Container'>
+        <h1>Select a cipher above to begin!</h1>
         <Description content={description} />
+        <img className='crypto_img' src={crypto_img} alt="Cryptography Image" />
+
     </div>
+
 );
 
-const description = "This app was built using React and Flask"
+const description = "Built by Steven Fountain using React and Flask"
 
 export default HomePage;
