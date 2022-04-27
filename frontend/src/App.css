@@ -5,8 +5,13 @@
   width: 80%;
 }
 
-.crypto_img {
-  width: 100%;
+#homepage {
+  padding-top: 2rem;
+  text-align: center;
+}
+
+h1 {
+  font-size: calc(12px + 2vmin);
 }
 
 h3 {
@@ -50,7 +55,7 @@ nav {
 }
 
 p {
-  font-size: calc(10px + 2vmin);
+  font-size: calc(6px + 2vmin);
 }
 
 .Description,

@@ -6,7 +6,7 @@ import Vigenere from './vigenere/Vigenere';
 import Affine from './affine/Affine';
 import Description from './Description';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-import crypto_img from './crypto_img.jpeg';
+import crypto_img from './hash.png';
 
 class HomePage extends Component {
 
@@ -27,14 +27,13 @@ class HomePage extends Component {
 
 const Home = () => (
     <div id='homepage' className='Container'>
-        <h1>Select a cipher above to begin!</h1>
-        <Description content={description} />
         <img className='crypto_img' src={crypto_img} alt="Cryptography Image" />
+        <Description className='footer' content={description} />
 
     </div>
 
 );
 
-const description = "Built by Steven Fountain using React and Flask"
+const description = "Steven Fountain | Spring 2022"
 
 export default HomePage;
