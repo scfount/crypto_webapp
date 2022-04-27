@@ -182,7 +182,6 @@ class HackVigenereKey:
         for i in range(length_attempt):
             subgroup = self.get_sub_group(ciphertext, i, length_attempt)
             shift = Shift(subgroup, "")
-            shift.vigenere = True
             decryptions = shift.decrypt_no_key()
 
             #  list of numbers indicating best shifts to try for this position

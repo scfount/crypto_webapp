@@ -1,7 +1,6 @@
 from ciphers.chi_squared import ChiSquared
 from ciphers.decryption import Decryption
 from .constants import Constants
-import pycld2 as cld2
 
 
 class Shift:
@@ -17,7 +16,6 @@ class Shift:
         """
         self.text = text.lower()
         self.key = self.check_key(key)
-        self.vigenere = False
 
     def check_key(self, key):
         """Checks the passed in key for validity
@@ -108,31 +106,4 @@ class Shift:
 
         decryptions.sort()
 
-        if not self.vigenere:
-            reliable_decryptions = self.get_reliable_decryptions(decryptions)
-            return reliable_decryptions if reliable_decryptions else decryptions
-        else:
-            return decryptions
-
-    def get_reliable_decryptions(self, decryptions):
-        """Generates a list of only reliable decryptions using a python language
-        detection library
-
-        Args:
-            decryptions (list): A list of all possible decryptions
-
-        Returns:
-            list: A list of only the reliable decryptions based on the detection library
-        """
-        THRESHOLD = 1000
-        reliable_decryptions = []
-
-        for decryption in decryptions:
-            isReliable, textBytesFound, details = cld2.detect(decryption.text)
-            decryption.isReliable = isReliable
-            decryption.details = details
-            decryption.decryption_score = details[0][-1]
-
-            if isReliable == True and decryption.decryption_score > THRESHOLD:
-                reliable_decryptions.append(decryption)
-        return reliable_decryptions
+        return decryptions
