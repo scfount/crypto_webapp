@@ -29,7 +29,6 @@ const Home = () => (
     <div id='homepage' className='Container'>
         <img className='crypto_img' src={crypto_img} alt="Cryptography Image" />
         <Description className='footer' content={description} />
-
     </div>
 
 );
