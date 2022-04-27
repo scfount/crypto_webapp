@@ -76,7 +76,7 @@ function ShiftDecrypt() {
                     </div>}
                 {response.status === 500 || response.status === 503 &&
                     <div>
-                        <p>Decryption failed :( Likely due to an alpha value which is not co-prime with 26</p>
+                        <p>Decryption failed :( Likely due to an alpha value that is not co-prime with 26</p>
                     </div>}
             </div>
         </div>
