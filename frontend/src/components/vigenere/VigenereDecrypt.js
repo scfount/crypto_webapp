@@ -86,7 +86,7 @@ function VigenereDecrypt() {
                         {JSON.parse(response.data.plaintext).map((decryption) =>
                             <Card text={decryption['text']} shiftKey={decryption['key']} key={decryption['text']} />)}
                     </div>}
-                {response.status != 200 &&
+                {response.status === 500 || response.status === 503 &&
                     <div>
                         <p>Decryption failed :( Likely due to a lack of memory on Heroku because I am too cheap to pay for it :)</p>
                     </div>}
