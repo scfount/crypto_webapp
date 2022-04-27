@@ -88,7 +88,7 @@ class Shift:
         ciphertext = self.text
 
         decryptions = []
-        for key in range(Constants.N):
+        for key in range(1, Constants.N):
             plaintext = []
             for char in ciphertext.lower():
                 if char.isalpha():
@@ -110,7 +110,7 @@ class Shift:
 
         if not self.vigenere:
             reliable_decryptions = self.get_reliable_decryptions(decryptions)
-            return reliable_decryptions
+            return reliable_decryptions if reliable_decryptions else decryptions
         else:
             return decryptions
 
@@ -132,6 +132,6 @@ class Shift:
             decryption.details = details
             decryption.decryption_score = details[0][-1]
 
-            if isReliable == True and not self.repeated_key(decryption.key):
+            if isReliable == True:
                 reliable_decryptions.append(decryption)
         return reliable_decryptions

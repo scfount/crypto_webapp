@@ -39,6 +39,7 @@ function AffineEncrypt() {
                 setResponse(response)
             }).catch(error => {
                 console.log(error)
+                setResponse("ERROR")
             })
     }
 
@@ -86,6 +87,11 @@ function AffineEncrypt() {
                     <div>
                         <h4>Encrypted Text:</h4>
                         <Card text={response.data.ciphertext} shiftKey={null} key={response.data.ciphertext} />
+                    </div>}
+                {response === "ERROR" &&
+                    <div>
+                        <p>Encryption failed :( </p>
+                        <p>Likely due to an invalid character in the text.</p>
                     </div>}
             </div>
         </div>

@@ -22,8 +22,8 @@ function ShiftEncrypt() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // const path = 'http://127.0.0.1:5000/shift_encrypt'
-        const path = 'https://cryptography-web-application.herokuapp.com/shift_encrypt'
+        const path = 'http://127.0.0.1:5000/shift_encrypt'
+        // const path = 'https://cryptography-web-application.herokuapp.com/shift_encrypt'
         axios({
             method: 'POST',
             url: path,
@@ -37,6 +37,7 @@ function ShiftEncrypt() {
                 setResponse(response)
             }).catch(error => {
                 console.log(error)
+                setResponse("ERROR")
             })
     }
 
@@ -73,6 +74,11 @@ function ShiftEncrypt() {
                     <div>
                         <h4>Encrypted Text:</h4>
                         <Card text={response.data.ciphertext} shiftKey={null} key={response.data.ciphertext} />
+                    </div>}
+                {response === "ERROR" &&
+                    <div>
+                        <p>Encryption failed :( </p>
+                        <p>Likely due to an invalid character in the text.</p>
                     </div>}
             </div>
         </div>

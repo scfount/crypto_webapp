@@ -36,6 +36,7 @@ function ShiftDecrypt() {
                 setResponse(response)
             }).catch(error => {
                 console.log(error)
+                setResponse("ERROR")
             })
     }
 
@@ -73,6 +74,11 @@ function ShiftDecrypt() {
                         <h4>Decrypted Text:</h4>
                         {JSON.parse(response.data.plaintext).map((decryption) =>
                             <Card text={decryption['text']} shiftKey={decryption['key']} key={decryption['text']} />)}
+                    </div>}
+                {response === "ERROR" &&
+                    <div>
+                        <p>Decryption failed :( </p>
+                        <p>Not sure why, try something else.</p>
                     </div>}
             </div>
         </div>

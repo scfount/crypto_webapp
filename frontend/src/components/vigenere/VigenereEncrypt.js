@@ -37,6 +37,7 @@ function VigenereEncrypt() {
                 setResponse(response)
             }).catch(error => {
                 console.log(error)
+                setResponse("ERROR")
             })
     }
 
@@ -67,11 +68,17 @@ function VigenereEncrypt() {
                 <Button name={'Encrypt'} />
             </form>
 
-            <div className='text'>{response.status === 200 &&
-                <div >
-                    <h4>Encrypted Text:</h4>
-                    <Card text={response.data.ciphertext} shiftKey={null} key={response.data.ciphertext} />
-                </div>}
+            <div className='text'>
+                {response.status === 200 &&
+                    <div >
+                        <h4>Encrypted Text:</h4>
+                        <Card text={response.data.ciphertext} shiftKey={null} key={response.data.ciphertext} />
+                    </div>}
+                {response === "ERROR" &&
+                    <div>
+                        <p>Encryption failed :( </p>
+                        <p>Likely due to an invalid character in the text.</p>
+                    </div>}
             </div>
         </div>
 
