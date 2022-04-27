@@ -124,6 +124,7 @@ class Shift:
         Returns:
             list: A list of only the reliable decryptions based on the detection library
         """
+        THRESHOLD = 1000
         reliable_decryptions = []
 
         for decryption in decryptions:
@@ -132,6 +133,6 @@ class Shift:
             decryption.details = details
             decryption.decryption_score = details[0][-1]
 
-            if isReliable == True:
+            if isReliable == True and decryption.decryption_score > THRESHOLD:
                 reliable_decryptions.append(decryption)
         return reliable_decryptions

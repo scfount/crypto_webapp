@@ -22,8 +22,8 @@ function ShiftEncrypt() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const path = 'http://127.0.0.1:5000/shift_encrypt'
-        // const path = 'https://cryptography-web-application.herokuapp.com/shift_encrypt'
+        // const path = 'http://127.0.0.1:5000/shift_encrypt'
+        const path = 'https://cryptography-web-application.herokuapp.com/shift_encrypt'
         axios({
             method: 'POST',
             url: path,
