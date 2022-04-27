@@ -39,6 +39,7 @@ function AffineDecrypt() {
                 setResponse(response)
             }).catch(error => {
                 console.log(error)
+                setResponse("ERROR")
             })
     }
 
@@ -87,9 +88,10 @@ function AffineDecrypt() {
                         <h4>Decrypted Text:</h4>
                         <Card text={response.data.plaintext} shiftKey={null} key={response.data.plaintext} />
                     </div>}
-                {response.status === 500 || response.status === 503 &&
+                {response === "ERROR" &&
                     <div>
-                        <p>Decryption failed :( Likely due to an alpha value that is not co-prime with 26</p>
+                        <p>Decryption failed :( </p>
+                        <p>Likely due to an alpha value that is not co-prime with 26.</p>
                     </div>}
             </div>
         </div>
