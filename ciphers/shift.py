@@ -106,4 +106,4 @@ class Shift:
 
         decryptions.sort()
 
-        return decryptions
+        return decryptions[0]
