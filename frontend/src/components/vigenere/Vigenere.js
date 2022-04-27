@@ -22,8 +22,9 @@ function Vigenere() {
 }
 
 const description = "Vigenère Cipher is a polyalphabetic substitution cipher\
- that uses a repeated word as its key over the course of the text, referencing\
-  a Vigenere table to encrypt/decrypt the text."
+ that uses a repeated string as its key over the course of the text, referencing\
+  a Vigenère table to encrypt/decrypt the text by substituting letters based on\
+  their intersection in the Vigenère table with their corresponding key letter."
 
 const decryption_info = "Auto-Decryption: Leave key length blank if not known or key is known."
 
