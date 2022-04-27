@@ -87,6 +87,10 @@ function AffineDecrypt() {
                         <h4>Decrypted Text:</h4>
                         <Card text={response.data.plaintext} shiftKey={null} key={response.data.plaintext} />
                     </div>}
+                {response.status === 500 || response.status === 503 &&
+                    <div>
+                        <p>Decryption failed :( Likely due to an alpha value that is not co-prime with 26</p>
+                    </div>}
             </div>
         </div>
     );
