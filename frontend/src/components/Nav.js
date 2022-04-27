@@ -15,7 +15,7 @@ class Nav extends Component {
                             <li>Shift</li>
                         </Link>
                         <Link className='link' to='/vigenere'>
-                            <li>Vigenere</li>
+                            <li>Vigenère</li>
                         </Link>
                         <Link className='link-end' to='/affine'>
                             <li>Affine</li>

@@ -8,7 +8,7 @@ function Vigenere() {
 
     return (
         <div className="Container">
-            <h1>Vigenere Cipher</h1>
+            <h1>Vigenère Cipher</h1>
             <Description content={description} />
             <Description content={decryption_info} />
             <div className='Ciphers'>
@@ -21,7 +21,7 @@ function Vigenere() {
     );
 }
 
-const description = "Vigenere Cipher is a polyalphabetic substitution cipher\
+const description = "Vigenère Cipher is a polyalphabetic substitution cipher\
  that uses a repeated word as its key over the course of the text, referencing\
   a Vigenere table to encrypt/decrypt the text."
 
