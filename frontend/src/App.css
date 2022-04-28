@@ -11,7 +11,7 @@
 }
 
 h1 {
-  font-size: calc(12px + 2vmin);
+  font-size: calc(16px + 1vmin);
 }
 
 h3 {
@@ -24,8 +24,8 @@ h4 {
 }
 
 nav {
-  min-height: 10vh;
-  font-size: calc(10px + 2vmin);
+  min-height: 5vh;
+  font-size: calc(16px + 1vmin);
   background-color: #282c34;
 }
 
@@ -55,14 +55,14 @@ nav {
 }
 
 p {
-  font-size: calc(6px + 2vmin);
+  font-size: calc(12px + 1vmin);
 }
 
 .Description,
 .Ciphers {
   display: flex;
   justify-content: space-around;
-  font-size: calc(10px + 2vmin);
+  font-size: calc(12px + 1vmin);
   align-items: top;
 }
 
@@ -79,7 +79,7 @@ input {
 }
 
 button {
-  font-size: calc(5px + 2vmin);
+  font-size: calc(9px + 1vmin);
   border-radius: .5em;
   border: none;
   background-color: #282c34;
@@ -107,8 +107,9 @@ button:hover {
 }
 
 .card p {
-  margin-left: .5rem;
-  font-size: calc(4px + 2vmin);
+  margin-left: .15rem;
+  margin-right: .15rem;
+  font-size: calc(8px + 1vmin);
 }
 
 
