@@ -88,7 +88,7 @@ class Vigenere:
             decryptions)
 
         reliable_decryptions.sort(
-            key=lambda d: d.decryption_score,  reverse=True)
+            key=lambda d: d.decryption_score, reverse=True)
 
         return reliable_decryptions if reliable_decryptions else decryptions
 
@@ -102,15 +102,18 @@ class Vigenere:
         SCORE_THRESHOLD = 1000
         key_hacker = HackVigenereKey()
 
-        possible_key_lengths = key_hacker.hack_key(self.text)
+        possible_key_lengths = key_hacker.get_key_lengths(self.text)
 
-        decryptions = self.get_decryptions(key_hacker, possible_key_lengths)
+        possible_keys = self.get_keys(key_hacker, possible_key_lengths)
+
+        decryptions = self.get_decryptions(possible_keys)
 
         reliable_decryptions = self.get_reliable_decryptions(
             decryptions)
 
         if not reliable_decryptions or reliable_decryptions[0].decryption_score < SCORE_THRESHOLD:
-            decryptions.extend(self.get_decryptions(key_hacker, [1, 2, 3]))
+            short_keys = self.get_keys(key_hacker, [1, 2, 3])
+            decryptions.extend(self.get_decryptions(short_keys))
 
             reliable_decryptions = self.get_reliable_decryptions(
                 decryptions)
@@ -125,25 +128,42 @@ class Vigenere:
                 key=lambda d: d.decryption_score, reverse=True)
             return decryptions
 
-    def get_decryptions(self, key_hacker, possible_key_lengths):
-        """Generate a list of possible decryptions based on a specified key length
+    def get_keys(self, key_hacker, possible_key_lengths):
+        """Generate a list of possible keys based on all possible key lengths
 
         Args:
             key_hacker (HackVigenereKey): A Vigenere key hacking object
-            possible_key_lengths (list): A list of ints representing possible key lengths
+            possible_key_lengths (list): a list of ints representing key lengths
 
         Returns:
-            list: A list of the possible decryptions using the provided key lengths
+            list: A list of Strings representing possible keys
         """
-        decryptions = []
+
+        all_possible_keys = []
 
         for possible_len in possible_key_lengths:
             possible_keys = key_hacker.guess_keys(self.text, possible_len)
             for key in possible_keys:
-                self.key = "".join(key)
-                decryption = self.decrypt()
-                this_decryption = decryption[0]
-                decryptions.append(this_decryption)
+                all_possible_keys.append(key)
+
+        return all_possible_keys
+
+    def get_decryptions(self, possible_keys):
+        """Generate a list of possible decryptions based on a specified key length
+
+        Args:
+            possible_keys (list): A list of Strings representing possible keys
+
+        Returns:
+            list: A list of the possible decryptions using the provided keys
+        """
+        decryptions = []
+
+        for key in possible_keys:
+            self.key = "".join(key)
+            decryption = self.decrypt()
+            this_decryption = decryption[0]
+            decryptions.append(this_decryption)
         return decryptions
 
     def get_reliable_decryptions(self, decryptions):

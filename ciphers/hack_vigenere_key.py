@@ -10,15 +10,15 @@ class HackVigenereKey:
     """Represents an object to break the Vigenere cipher
     """
 
-    def hack_key(self, ciphertext):
+    def get_key_lengths(self, ciphertext):
         """Generates a list of possible Vigenere key lengths based on the 
-        provided ciphertext using the kasiski analysis:
-        - get repeated substrings of length 3
-        - find distance between any repeated, length-3 substrings
-        - count all factors of found distances, using higher occurring factors
-        as likely key lengths
-        - I modified to only look at factors >= 4 on first pass as 2 and 3
-        tend to dominate the count
+            provided ciphertext using the kasiski analysis:
+            - get repeated substrings of length 3
+            - find distance between any repeated, length-3 substrings
+            - count all factors of found distances, using higher occurring factors
+            as likely key lengths
+            - I modified to only look at factors >= 4 on first pass as 2 and 3
+            tend to dominate the count
 
         Args:
             ciphertext (String): The ciphertext used to generate teh possible
@@ -31,17 +31,19 @@ class HackVigenereKey:
         # Run Kasiski examination to find key length
         # find all repeated substrings of length 3, decrease if needed
         for sub_len in range(3, 0, -1):
-            kasiski_list = self.get_all_substrings(ciphertext, sub_len)
+            all_substrings_list = self.get_all_substrings(ciphertext, sub_len)
             # add all to dict to count frequency of each substring
-            kasiski_dict = self.count_freq_substrings(kasiski_list)
+            substring_freq_dict = self.count_freq_substrings(
+                all_substrings_list)
             # iterate through dict and pull out substrings with a freq. greater than 1
-            kasiski_repeated = self.get_repeat_substrings(kasiski_dict)
-            if kasiski_repeated:
+            repeated_substing_list = self.get_repeat_substrings(
+                substring_freq_dict)
+            if repeated_substing_list:
                 break
 
         # get number of letters between repeats
         distance_list = self.calc_distance_between_substrings(
-            ciphertext, kasiski_repeated)
+            ciphertext, repeated_substing_list)
 
         # count all factors for distances (excluding 1) to guess most likely key lengths
         possible_key_lengths = self.estimate_key_length(distance_list)
@@ -59,45 +61,45 @@ class HackVigenereKey:
         Returns:
             list: A list of all the specified length substrings
         """
-        kasiski_list = [ciphertext[x:y] for x, y in combinations(
+        all_substrings_list = [ciphertext[x:y] for x, y in combinations(
             range(len(ciphertext) + 1), r=2) if len(ciphertext[x:y]) == length]
-        return kasiski_list
+        return all_substrings_list
 
-    def count_freq_substrings(self, kasiski_list):
+    def count_freq_substrings(self, all_substrings_list):
         """Count the number of occurrences for each substring in provided list
 
         Args:
-            kasiski_list (list): A list of n-length substrings
+            all_substrings_list (list): A list of n-length substrings
 
         Returns:
             dictionary: A dictionary where the key is a substring and the value
             is its occurrence frequency
         """
-        kasiski_dict = {}
-        for substring in kasiski_list:
-            if substring in kasiski_dict:
-                kasiski_dict[substring] += 1
+        substring_freq_dict = {}
+        for substring in all_substrings_list:
+            if substring in substring_freq_dict:
+                substring_freq_dict[substring] += 1
             else:
-                kasiski_dict[substring] = 1
-        return kasiski_dict
+                substring_freq_dict[substring] = 1
+        return substring_freq_dict
 
-    def get_repeat_substrings(self, kasiski_dict):
+    def get_repeat_substrings(self, substring_freq_dict):
         """Finds all the substrings that occur more than one time in the ciphertext
 
         Args:
-            kasiski_dict (dictionary): A dictionary where the key is a substring and the value
+            substring_freq_dict (dictionary): A dictionary where the key is a substring and the value
             is its occurrence frequency
 
         Returns:
             list: A list of only the substrings that occur more than once
         """
-        kasiski_repeated = []
-        for substr, freq in kasiski_dict.items():
+        repeated_substing_list = []
+        for substr, freq in substring_freq_dict.items():
             if freq > 1:
-                kasiski_repeated.append(substr)
-        return kasiski_repeated
+                repeated_substing_list.append(substr)
+        return repeated_substing_list
 
-    def calc_distance_between_substrings(self, ciphertext, kasiski_repeated):
+    def calc_distance_between_substrings(self, ciphertext, repeated_substing_list):
         """Finds the distance between repeated substrings, for all occurrences. 
 
         Finds the start index for each repeated substing, then finds the difference 
@@ -105,14 +107,14 @@ class HackVigenereKey:
 
         Args:
             ciphertext (String): The encrypted text
-            kasiski_repeated (list): A list of all the repeated substrings
+            repeated_substing_list (list): A list of all the repeated substrings
 
         Returns:
             list: A list representing all the distances between each repeated 
             substring
         """
         k_dict = {}
-        for substring in kasiski_repeated:
+        for substring in repeated_substing_list:
             k_dict[substring] = [match.start()
                                  for match in re.finditer(substring, ciphertext)]
         distance_list = []
