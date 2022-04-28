@@ -82,7 +82,9 @@ class Vigenere:
         """
         key_hacker = HackVigenereKey()
 
-        decryptions = self.get_decryptions(key_hacker, [self.key_length])
+        possible_keys = self.get_keys(key_hacker, [self.key_length])
+
+        decryptions = self.get_decryptions(possible_keys)
 
         reliable_decryptions = self.get_reliable_decryptions(
             decryptions)
