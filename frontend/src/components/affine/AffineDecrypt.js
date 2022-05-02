@@ -7,9 +7,9 @@ import Card from '../Card';
 function AffineDecrypt() {
     const [response, setResponse] = useState({})
     const [ciphertext, setCiphertext] = useState({
-        text: '',
-        alpha: 0,
-        beta: 0
+        text: "",
+        alpha: "",
+        beta: ""
     })
 
     const handleChange = (event) => {
@@ -23,8 +23,8 @@ function AffineDecrypt() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // const path = 'http://127.0.0.1:5000/affine_decrypt'
-        const path = 'https://cryptography-web-application.herokuapp.com/affine_decrypt'
+        const path = 'http://127.0.0.1:5000/affine_decrypt'
+        // const path = 'https://cryptography-web-application.herokuapp.com/affine_decrypt'
         axios({
             method: 'POST',
             url: path,
@@ -86,8 +86,10 @@ function AffineDecrypt() {
                 {response.status === 200 &&
                     <div>
                         <h4>Decrypted Text:</h4>
-                        <Card text={response.data.plaintext} shiftKey={null} key={response.data.plaintext} />
+                        {JSON.parse(response.data.plaintext).map((decryption) =>
+                            <Card text={decryption['text']} shiftKey={decryption['key']} key={decryption['text']} />)}
                     </div>}
+
                 {response === "ERROR" &&
                     <div>
                         <p>Decryption failed :( </p>
