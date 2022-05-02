@@ -101,7 +101,6 @@ class Vigenere:
         Returns:
             list: A list of the possible decryptions
         """
-        SCORE_THRESHOLD = 1000
         key_hacker = HackVigenereKey()
 
         possible_key_lengths = key_hacker.get_key_lengths(self.text)
@@ -113,7 +112,8 @@ class Vigenere:
         reliable_decryptions = self.get_reliable_decryptions(
             decryptions)
 
-        if not reliable_decryptions or reliable_decryptions[0].decryption_score < SCORE_THRESHOLD:
+        if not reliable_decryptions or \
+                reliable_decryptions[0].decryption_score < Constants.SCORE_THRESHOLD:
             short_keys = self.get_keys(key_hacker, [1, 2, 3])
             decryptions.extend(self.get_decryptions(short_keys))
 
@@ -185,8 +185,11 @@ class Vigenere:
             decryption.isReliable = isReliable
             decryption.details = details
             decryption.decryption_score = details[0][-1]
+            decryption.language = details[0][0]
 
-            if isReliable == True and not self.repeated_key(decryption.key):
+            if isReliable == True and not self.repeated_key(decryption.key) \
+                    and decryption.language == Constants.ENGLISH and \
+                decryption.decryption_score > Constants.SCORE_THRESHOLD:
                 reliable_decryptions.append(decryption)
         return reliable_decryptions
 

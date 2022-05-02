@@ -36,3 +36,8 @@ class Constants:
     NO_KEY_NO_LENGTH = "no key no length"
     NO_KEY_GIVEN_LENGTH = "no key given length"
     GIVEN_KEY = "given key"
+    ENGLISH = "ENGLISH"
+
+    SCORE_THRESHOLD = 1000
+
+    COPRIME = [1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23, 25]

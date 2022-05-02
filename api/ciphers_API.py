@@ -99,12 +99,17 @@ class AffineEncrypt(Resource):
 class AffineDecrypt(Resource):
     def post(self):
         ciphertext = request.json['text']
-        alpha = int(request.json['alpha'])
-        beta = int(request.json['beta'])
+        alpha = request.json['alpha']
+        beta = request.json['beta']
         affine = Affine(ciphertext, alpha, beta)
-        plaintext = affine.decrypt()
+        if affine.alpha == None or affine.beta == None:
+            decryptions = affine.decrypt_no_key()
+        else:
+            decryptions = affine.decrypt()
+        decryptions_JSON = json.dumps(
+            [decryption.__dict__ for decryption in decryptions])
         return {
             'resultStatus': 'SUCCESS',
             'ciphertext': None,
-            'plaintext': plaintext
+            'plaintext': decryptions_JSON
         }

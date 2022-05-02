@@ -1,6 +1,7 @@
 import collections
 from itertools import combinations
 import itertools
+from operator import le
 import re
 from ciphers.constants import Constants
 from ciphers.shift import Shift
@@ -166,7 +167,9 @@ class HackVigenereKey:
         most_common = collections.Counter(factor_count).most_common(2)
 
         for pair in most_common:
-            key_length_list.append(pair[0])
+            length = pair[0]
+            if length <= 20:
+                key_length_list.append(length)
 
         return key_length_list
 
