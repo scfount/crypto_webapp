@@ -74,7 +74,7 @@ class Affine:
         key = "alpha: {alpha}, beta: {beta}".format(
             alpha=self.alpha, beta=self.beta)
         decryption = Decryption(decrypted_text, key)
-        return decryption
+        return [decryption]
 
     def decrypt_no_key(self):
         """Tries all possible affine keys
@@ -82,13 +82,7 @@ class Affine:
         Returns:
             list: A list of decryptions
         """
-        decryptions = []
-
-        for alpha in Constants.COPRIME:
-            self.alpha = alpha
-            for beta in range(27):
-                self.beta = beta
-                decryptions.append(self.decrypt())
+        decryptions = self.get_decryptions()
 
         reliable_decryptions = self.get_reliable_decryptions(
             decryptions)
@@ -102,6 +96,24 @@ class Affine:
             decryptions.sort(
                 key=lambda d: d.decryption_score, reverse=True)
             return decryptions
+
+    def get_decryptions(self):
+        """Generates a list of possible decryptions by trying all alpha
+        and beta values
+
+        Returns:
+            list: a list of decryptions
+        """
+        decryptions = []
+
+        for alpha in Constants.COPRIME:
+            self.alpha = alpha
+            for beta in range(27):
+                self.beta = beta
+                decryption = self.decrypt()
+                this_decryption = decryption[0]
+                decryptions.append(this_decryption)
+        return decryptions
 
     def get_reliable_decryptions(self, decryptions):
         """Generates a list of only reliable decryptions using a python language
