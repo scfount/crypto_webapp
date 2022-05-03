@@ -109,6 +109,11 @@ class Shift:
                 return decryptions
 
     def get_decryptions(self):
+        """Generates a list of possible decryptions by trying all shift values
+
+        Returns:
+            list: a list of decryptions
+        """
         decryptions = []
         for key in range(1, Constants.N):
             plaintext = []
